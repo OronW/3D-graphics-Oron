@@ -1,11 +1,11 @@
 # Computer Graphics 203.3710, Summer 2018
 ## Students Team data
 
-Name: 'Your real name'  
-Student Number: 'Your student number'
+Name: Oron Werner  
+Student Number: 300881612
 
-Name: 'Your real name'  
-Student Number: 'Your student number'
+Name: Gal Shachar
+Student Number: 200739530
 
 ### Lecturer
 *Roi Poranne*
