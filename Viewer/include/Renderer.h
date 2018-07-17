@@ -68,4 +68,7 @@ public:
 
 	// Draw wide vertical and horizontal lines on the screen
 	void SetDemoBuffer();
+	
+	// Draw a line using bresenham algorithm
+	void drawLine(const glm::vec2 &p1,const glm::vec2 &p2);
 };

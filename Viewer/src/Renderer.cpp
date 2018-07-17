@@ -56,6 +56,11 @@ void Renderer::SetDemoBuffer()
 			putPixel((width / 2) - r0, i, red);
 		}
 	}
+
+	//drawLine(glm::vec2(0, 0), glm::vec2(width, height));
+	
+
+
 	// Wide magenta horizontal line
 	glm::vec4 magenta = glm::vec4(1, 0, 1, 1);
 	for (int i = 0; i<width; i++)
@@ -183,4 +188,28 @@ void Renderer::Viewport(int w, int h)
 	delete[] colorBuffer;
 	colorBuffer = new float[3 * h*w];
 	createOpenGLBuffer();
+}
+
+// Draw a line using bresenham algorithm
+void Renderer::drawLine(const glm::vec2 &p1, const glm::vec2 &p2)
+{
+
+	glm::vec3 blue = glm::vec3(0, 0, 1);
+	int x = p1.x;
+	int y = p1.y;
+	int deltaX = p2.x - p1.x;
+	int deltaY = p2.y - p1.y;
+	int e = -deltaX;
+	while (x <= p2.x)
+	{
+		if (e > 0)
+		{
+			y =y+ 1;
+			e = e - 2 * (deltaX);
+		}
+		putPixel(x, y, blue);
+		x = x + 1;
+		e = e + 2*(deltaY);
+	}
+
 }

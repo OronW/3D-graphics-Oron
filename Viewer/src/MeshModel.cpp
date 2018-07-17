@@ -7,7 +7,7 @@
 #define FACE_ELEMENTS 3
 
 
-using namespace std;
+using namespace std; 
 
 // A struct for processing a single line in a wafefront obj file:
 // https://en.wikipedia.org/wiki/Wavefront_.obj_file
