@@ -70,5 +70,8 @@ public:
 	void SetDemoBuffer();
 	
 	// Draw a line using bresenham algorithm
-	void drawLine(const glm::vec2 &p1,const glm::vec2 &p2);
+	void drawLine(const glm::vec3 &p1,const glm::vec3 &p2);
+
+	//Primitive triangle
+	void PrimMeshModel(vector<glm::vec3> *verticies);
 };

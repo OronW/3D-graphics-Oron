@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "InitShader.h"
 #include <imgui/imgui.h>
+#include <array>
+#include <iostream>
 
 #define INDEX(width,x,y,c) ((x)+(y)*(width))*3+(c)
 
@@ -190,8 +192,9 @@ void Renderer::Viewport(int w, int h)
 	createOpenGLBuffer();
 }
 
+// ----------------------------------------------- our added code
 // Draw a line using bresenham algorithm
-void Renderer::drawLine(const glm::vec2 &p1, const glm::vec2 &p2)
+void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 {
 
 	glm::vec3 blue = glm::vec3(0, 0, 1);
@@ -213,3 +216,24 @@ void Renderer::drawLine(const glm::vec2 &p1, const glm::vec2 &p2)
 	}
 
 }
+
+// Implement primitive triangle
+void Renderer::PrimMeshModel(vector<glm::vec3> *verticies)
+{
+	int i = 0;
+	int size = verticies->size();	// get size of array
+
+	while (i < size)				// draw triangles of 3 verticies at a time
+	{
+		vector<glm::vec3> pointA = verticies[i++];		// get first point
+		vector<glm::vec3> pointB = verticies[i++];		// get second point
+		vector<glm::vec3> pointC = verticies[i++];		// get third point
+
+		// draw 3 lines
+		drawLine(pointA, pointB);		// THIS PART NOT WORKING YET !!
+		drawLine(pointB, pointC);
+		drawLine(pointC, pointA);
+	}
+}
+
+
