@@ -3,6 +3,7 @@
 #include <imgui/imgui.h>
 #include <array>
 #include <iostream>
+#include <MeshModel.h>
 
 #define INDEX(width,x,y,c) ((x)+(y)*(width))*3+(c)
 
@@ -59,7 +60,7 @@ void Renderer::SetDemoBuffer()
 		}
 	}
 
-	//drawLine(glm::vec2(0, 0), glm::vec2(width, height));
+	drawLine(glm::vec3(0, 0, 0), glm::vec3(width, height, 0));
 	
 
 
@@ -225,12 +226,12 @@ void Renderer::PrimMeshModel(vector<glm::vec3> *verticies)
 
 	while (i < size)				// draw triangles of 3 verticies at a time
 	{
-		vector<glm::vec3> pointA = verticies[i++];		// get first point
-		vector<glm::vec3> pointB = verticies[i++];		// get second point
-		vector<glm::vec3> pointC = verticies[i++];		// get third point
+		glm::vec3 pointA = (*verticies)[i++];		// get first point
+		glm::vec3 pointB = (*verticies)[i++];		// get second point
+		glm::vec3 pointC = (*verticies)[i++];		// get third point
 
 		// draw 3 lines
-		drawLine(pointA, pointB);		// THIS PART NOT WORKING YET !!
+		drawLine(pointA, pointB);		// draw the 3 lines
 		drawLine(pointB, pointC);
 		drawLine(pointC, pointA);
 	}
