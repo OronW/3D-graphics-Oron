@@ -101,11 +101,11 @@ void MeshModel::LoadFile(const string& fileName)
 		issLine >> std::ws >> lineType;
 
 		// based on the type parse data
-		if (lineType == "?") /*BUG*/
+		if (lineType == "v") /*BUG*/
 		{
 			vertices.push_back(vec3fFromStream(issLine));
 		}
-		else if (lineType == "?") /*BUG*/
+		else if (lineType == "f") /*BUG*/
 		{
 			faces.push_back(issLine);
 		}
@@ -125,14 +125,14 @@ void MeshModel::LoadFile(const string& fileName)
 	//Then vertexPositions should contain:
 	//vertexPositions={v1,v2,v3,v1,v3,v4}
 
-	vertexPositions = new glm::vec3[7]; /*BUG*/
+	vertexPositions = new glm::vec3[3]; /*BUG*/
 	// iterate through all stored faces and create triangles
 	int k=0;
 	for (vector<FaceIdx>::iterator it = faces.begin(); it != faces.end(); ++it)
 	{
 		for (int i = 0; i < FACE_ELEMENTS; i++)
 		{
-			vertexPositions[k++] = glm::vec3(); /*BUG*/
+			vertexPositions[k++] = glm::vec3(vertices[i]); /*BUG*/
 		}
 	}
 }
