@@ -3,7 +3,7 @@
 #include <imgui/imgui.h>
 #include <array>
 #include <iostream>
-#include <MeshModel.h>
+#include "MeshModel.h""
 
 #define INDEX(width,x,y,c) ((x)+(y)*(width))*3+(c)
 
@@ -59,11 +59,9 @@ void Renderer::SetDemoBuffer()
 			putPixel((width / 2) - r0, i, red);
 		}
 	}
-
+	
 	drawLine(glm::vec3(0, 0, 0), glm::vec3(width, height, 0));
 	
-
-
 	// Wide magenta horizontal line
 	glm::vec4 magenta = glm::vec4(1, 0, 1, 1);
 	for (int i = 0; i<width; i++)
@@ -76,6 +74,20 @@ void Renderer::SetDemoBuffer()
 
 	}
 }
+
+void Renderer::SetBuffer()
+{
+	drawLine(glm::vec3(0, 0, 0), glm::vec3(width, height, 0));
+
+	//how to send camera position?
+	glm::vec3 cameraDefault = glm::vec3 (0, 0, 0);
+
+	//how to send vertices array?
+	
+}
+
+
+
 
 //##############################
 //##OpenGL stuff. Don't touch.##
@@ -236,5 +248,7 @@ void Renderer::PrimMeshModel(vector<glm::vec3> *verticies)
 		drawLine(pointC, pointA);
 	}
 }
+
+
 
 

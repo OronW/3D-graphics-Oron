@@ -14,6 +14,7 @@
 #include "Renderer.h"
 #include "Scene.h"
 #include "ImguiMenus.h"
+#include "MeshModel.h"
 
 
 // Callback for the error state of glfw
@@ -51,7 +52,10 @@ int main(int argc, char **argv)
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
 		// draw scene here
-		scene.DrawDemo();
+		scene.Draw();
+		// TEST-------------
+			
+		//-------------------
         // Start the ImGui frame
 		StartFrame();
 		// imgui stuff here

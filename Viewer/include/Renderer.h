@@ -74,4 +74,6 @@ public:
 
 	//Primitive triangle
 	void PrimMeshModel(vector<glm::vec3> *verticies);
+
+	void Renderer::SetBuffer();
 };

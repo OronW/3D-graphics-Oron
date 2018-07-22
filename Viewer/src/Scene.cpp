@@ -13,6 +13,7 @@ void Scene::Draw()
 {
 	// 1. Send the renderer the current camera transform and the projection
 	// 2. Tell all models to draw themselves
+	renderer->SetBuffer();
 
 	renderer->SwapBuffers();
 }
