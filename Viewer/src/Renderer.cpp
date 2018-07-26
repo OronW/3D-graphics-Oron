@@ -3,7 +3,7 @@
 #include <imgui/imgui.h>
 #include <array>
 #include <iostream>
-#include "MeshModel.h""
+#include "MeshModel.h"
 
 #define INDEX(width,x,y,c) ((x)+(y)*(width))*3+(c)
 
@@ -22,6 +22,25 @@ Renderer::Renderer(int w, int h) : width(w), height(h)
 Renderer::~Renderer()
 {
 	delete[] colorBuffer;
+}
+
+void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm::vec3>* normals)
+{
+	int i = 0;
+	int size = vertices->size();	// get size of array
+	
+
+	while (i < size)				// draw triangles of 3 verticies at a time
+	{
+		glm::vec3 pointA = (*vertices)[i++];	// get first point
+		glm::vec3 pointB = (*vertices)[i++];	// get second point
+		glm::vec3 pointC = (*vertices)[i++];	// get third point
+
+		// draw 3 lines
+		drawLine(pointA, pointB);		// draw the 3 lines
+		drawLine(pointB, pointC);
+		drawLine(pointC, pointA);
+	}
 }
 
 void Renderer::putPixel(int i, int j, const glm::vec3& color)
@@ -77,10 +96,13 @@ void Renderer::SetDemoBuffer()
 
 void Renderer::SetBuffer()
 {
+
 	drawLine(glm::vec3(0, 0, 0), glm::vec3(width, height, 0));
 
 	//how to send camera position?
-	glm::vec3 cameraDefault = glm::vec3 (0, 0, 0);
+	//MeshModel mesh;
+
+	//DrawTriangles( , NULL);
 
 	//how to send vertices array?
 	
@@ -231,23 +253,23 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 }
 
 // Implement primitive triangle
-void Renderer::PrimMeshModel(vector<glm::vec3> *verticies)
-{
-	int i = 0;
-	int size = verticies->size();	// get size of array
+//void Renderer::PrimMeshModel(glm::vec3 *vertexPosition)
+//{
+//	int i = 0;
+//	//int size = vertexPosition->length;	// get size of array
+//
+//	while (i < 21)				// draw triangles of 3 verticies at a time
+//	{
+//		glm::vec3 pointA = vertexPosition[0];		// get first point
+//		glm::vec3 pointB = vertexPosition[1];		// get second point
+//		glm::vec3 pointC = vertexPosition[2];		// get third point
+//
+//		// draw 3 lines
+//		drawLine(pointA, pointB);		// draw the 3 lines
+//		drawLine(pointB, pointC);
+//		drawLine(pointC, pointA);
+//	}
 
-	while (i < size)				// draw triangles of 3 verticies at a time
-	{
-		glm::vec3 pointA = (*verticies)[i++];		// get first point
-		glm::vec3 pointB = (*verticies)[i++];		// get second point
-		glm::vec3 pointC = (*verticies)[i++];		// get third point
-
-		// draw 3 lines
-		drawLine(pointA, pointB);		// draw the 3 lines
-		drawLine(pointB, pointC);
-		drawLine(pointC, pointA);
-	}
-}
 
 
 

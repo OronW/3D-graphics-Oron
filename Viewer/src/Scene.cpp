@@ -15,6 +15,12 @@ void Scene::Draw()
 	// 2. Tell all models to draw themselves
 	renderer->SetBuffer();
 
+	for (int i = 0; i < models.size(); i++)
+	{
+		const std::vector<glm::vec3>* tris = models[i]->Draw();
+		renderer->DrawTriangles(tris);
+	}
+
 	renderer->SwapBuffers();
 }
 

@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <glad/glad.h>    // This example is using glad to access OpenGL functions. You may freely use any other OpenGL loader such as: glew, gl3w, glLoadGen, etc.
 #include <GLFW/glfw3.h>
+#include <iostream>
 // Handling imgui+glfw
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -43,6 +44,8 @@ int main(int argc, char **argv)
     // Setup Dear ImGui binding
 	ImGuiIO& io = SetupDearImgui(window);
     // Main loop - the famous "Game Loop" in video games :)
+
+	scene.LoadOBJModel("C:\\Users\\oron\\Downloads\\objex\\banana.obj");
     while (!glfwWindowShouldClose(window))
     {
         // Poll and handle events (inputs, window resize, etc.)

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "Renderer.h"
 #define FACE_ELEMENTS 3
 
 
@@ -73,6 +74,11 @@ glm::vec2 vec2fFromStream(std::istream& issLine)
 	return glm::vec2(x, y);
 }
 
+MeshModel::MeshModel()
+{
+	//this.renderer = renderer;
+}
+
 MeshModel::MeshModel(const string& fileName)
 {
 	LoadFile(fileName);
@@ -125,19 +131,20 @@ void MeshModel::LoadFile(const string& fileName)
 	//Then vertexPositions should contain:
 	//vertexPositions={v1,v2,v3,v1,v3,v4}
 
-	vertexPositions = new glm::vec3[3]; /*BUG*/
+	vertexPositions = new vector<glm::vec3>; /*BUG*/
 	// iterate through all stored faces and create triangles
 	int k=0;
 	for (vector<FaceIdx>::iterator it = faces.begin(); it != faces.end(); ++it)
 	{
 		for (int i = 0; i < FACE_ELEMENTS; i++)
 		{
-			vertexPositions[k++] = glm::vec3(vertices[i]); /*BUG*/
+			vertexPositions->push_back(glm::vec3(it->v[i])); /*BUG*/
 		}
 	}
 }
 
 const vector<glm::vec3>* MeshModel::Draw()
 {
-	return NULL;
+	//Returns the points to draw the meshmodel
+	return vertexPositions;
 }

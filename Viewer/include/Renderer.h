@@ -73,7 +73,7 @@ public:
 	void drawLine(const glm::vec3 &p1,const glm::vec3 &p2);
 
 	//Primitive triangle
-	void PrimMeshModel(vector<glm::vec3> *verticies);
+	//void PrimMeshModel(glm::vec3 *vertexPosition);
 
 	void Renderer::SetBuffer();
 };

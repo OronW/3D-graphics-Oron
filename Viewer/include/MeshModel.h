@@ -11,22 +11,24 @@ using namespace std;
  */
 class MeshModel : public Model
 {
+
 protected :
 	//MeshModel() {}
-	glm::vec3 *vertexPositions;
+	vector<glm::vec3> *vertexPositions;
 	// Add more attributes.
 	glm::mat4x4 worldTransform;
 	glm::mat4x4 normalTransform;
 
 public:
+	MeshModel();
 	MeshModel(const string& fileName);
 	~MeshModel();
 	void LoadFile(const string& fileName);
 	const vector<glm::vec3>* Draw();
 
-	glm::vec3 MeshModel::getVertices()
+	vector<glm::vec3>* MeshModel::getVertices()
 	{
-		return *vertexPositions;
+		return vertexPositions;
 	}
 };
 
