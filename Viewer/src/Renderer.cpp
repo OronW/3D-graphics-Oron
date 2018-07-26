@@ -28,7 +28,7 @@ void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm
 {
 	int i = 0;
 	int size = vertices->size();	// get size of array
-	
+	//std::cout << "size is: " << size << std::endl;
 
 	while (i < size)				// draw triangles of 3 verticies at a time
 	{
@@ -97,7 +97,7 @@ void Renderer::SetDemoBuffer()
 void Renderer::SetBuffer()
 {
 
-	drawLine(glm::vec3(0, 0, 0), glm::vec3(width, height, 0));
+	//drawLine(glm::vec3(0, 0, 0), glm::vec3(width, height, 0));
 
 	//how to send camera position?
 	//MeshModel mesh;
@@ -232,7 +232,7 @@ void Renderer::Viewport(int w, int h)
 void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 {
 
-	glm::vec3 blue = glm::vec3(0, 0, 1);
+	glm::vec3 white = glm::vec3(0, 0, 0);
 	int x = p1.x;
 	int y = p1.y;
 	int deltaX = p2.x - p1.x;
@@ -245,7 +245,7 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 			y =y+ 1;
 			e = e - 2 * (deltaX);
 		}
-		putPixel(x, y, blue);
+		putPixel(x, y, white);
 		x = x + 1;
 		e = e + 2*(deltaY);
 	}

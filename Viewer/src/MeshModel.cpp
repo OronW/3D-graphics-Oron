@@ -134,11 +134,13 @@ void MeshModel::LoadFile(const string& fileName)
 	vertexPositions = new vector<glm::vec3>; /*BUG*/
 	// iterate through all stored faces and create triangles
 	int k=0;
-	for (vector<FaceIdx>::iterator it = faces.begin(); it != faces.end(); ++it)
+	//for(vector<FaceIdx>::iterator it = faces.begin(); it != faces.end(); ++it)
+	for(FaceIdx current_face: faces)
 	{
 		for (int i = 0; i < FACE_ELEMENTS; i++)
 		{
-			vertexPositions->push_back(glm::vec3(it->v[i])); /*BUG*/
+			int vertex_index = current_face.v[i]-1;	//obj file starts with vertex index 1
+			vertexPositions->push_back(vertices[vertex_index]); /*BUG*/
 		}
 	}
 }
