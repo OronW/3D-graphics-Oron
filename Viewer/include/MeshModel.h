@@ -18,6 +18,7 @@ protected :
 	// Add more attributes.
 	glm::mat4x4 worldTransform;
 	glm::mat4x4 normalTransform;
+	glm::mat4x4 objTransform;
 
 public:
 	MeshModel();

@@ -103,23 +103,63 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 	int y1 = ((p1.y+1) * height/2);
 	int x2 = ((p2.x + 1) * width / 2);
 	int y2 = ((p2.y + 1) * height / 2);
-	int deltaX = x2 - x1;
-	int deltaY = y2 - y1;
 	int x = x1;
 	int y = y1;
+	
+	int sign_y = 1;
+
+	int deltaX = x2 - x1;
+	int deltaY = y2 - y1;
 	int e = -deltaX;
+
+	if (deltaY < 0)		// for slope between o to -45.
+	{
+		sign_y = -1;
+		int x1_orig = p1.x;
+		int y1_orig = p1.y;
+
+		y2 -= p1.y;
+		y2 *= -1;
+		x2 -= p1.x;
+		x1 = 0;
+		y1 = 0;
+
+		int x_correct = ((p1.x + 1) * width / 2);
+		int y_correct = ((p1.y + 1) * height / 2);
+
+		while (x1 <= x2)
+		{
+			if (e > 0)
+			{
+				y1 = (y1 + 1);
+				e = e - 2 * (deltaX);
+			}
+
+
+			putPixel(x1+x_correct, (sign_y*y1)+y_correct, white);
+			x1 = x1 + 1;
+			e = e + 2 * (deltaY);
+		}
+
+
+	}
+
+
+
+/*
 	while (x <= x2)
 	{
 		if (e > 0)
 		{
-			y = y + 1;
+			y = (y + 1);
 			e = e - 2 * (deltaX);
 		}
+		
+		
 		putPixel(x, y, white);
 		x = x + 1;
 		e = e + 2 * (deltaY);
-	}
-
+	}*/
 }
 
 void Renderer::SetBuffer()
