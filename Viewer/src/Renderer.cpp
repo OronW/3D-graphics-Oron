@@ -99,8 +99,8 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 {
 
 	glm::vec3 white = glm::vec3(1, 1, 1);
-	int x1 = ((p1.x+1) * width/2);
-	int y1 = ((p1.y+1) * height/2);
+	int x1 = ((p1.x + 1) * width / 2);
+	int y1 = ((p1.y + 1) * height / 2);
 	int x2 = ((p2.x + 1) * width / 2);
 	int y2 = ((p2.y + 1) * height / 2);
 	int x = x1;
@@ -112,18 +112,19 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 	int deltaY = y2 - y1;
 	int e = -deltaX;
 
-	if (deltaY < 0)		// for slope between o to -45.
+	if (deltaY < 0 && deltaX > 0)		// for slope between o to -45.
 	{
 		sign_y = -1;
 		int x1_orig = p1.x;
 		int y1_orig = p1.y;
 
-		y2 -= p1.y;
-		y2 *= -1;
-		x2 -= p1.x;
+		y2 -= y1;
+		x2 -= x1;
 		x1 = 0;
 		y1 = 0;
 
+		//y2 *= -1;
+		
 		int x_correct = ((p1.x + 1) * width / 2);
 		int y_correct = ((p1.y + 1) * height / 2);
 
@@ -135,18 +136,13 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 				e = e - 2 * (deltaX);
 			}
 
-
 			putPixel(x1+x_correct, (sign_y*y1)+y_correct, white);
 			x1 = x1 + 1;
-			e = e + 2 * (deltaY);
+			e = e + (2 * (deltaY)*sign_y);
 		}
-
-
 	}
 
-
-
-/*
+	else
 	while (x <= x2)
 	{
 		if (e > 0)
@@ -159,7 +155,7 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 		putPixel(x, y, white);
 		x = x + 1;
 		e = e + 2 * (deltaY);
-	}*/
+	}
 }
 
 void Renderer::SetBuffer()
