@@ -4,6 +4,7 @@
 #include <stdlib.h>
 // open file dialog cross platform https://github.com/mlabbe/nativefiledialog
 #include <nfd.h>
+#include "Scene.h"
 
 bool showDemoWindow = false;
 bool showAnotherWindow = false;
@@ -71,6 +72,7 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 					nfdchar_t *outPath = NULL;
 					nfdresult_t result = NFD_OpenDialog("obj;png,jpg", NULL, &outPath);
 					if (result == NFD_OKAY) {
+						scene->LoadOBJModel(outPath);
 						ImGui::Text("Hello from another window!");
 						free(outPath);
 					}
