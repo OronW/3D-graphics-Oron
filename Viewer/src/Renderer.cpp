@@ -94,6 +94,34 @@ void Renderer::SetDemoBuffer()
 	}
 }
 
+// Draw a line using bresenham algorithm
+void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
+{
+
+	glm::vec3 white = glm::vec3(1, 1, 1);
+	int x1 = ((p1.x+1) * width/2);
+	int y1 = ((p1.y+1) * height/2);
+	int x2 = ((p2.x + 1) * width / 2);
+	int y2 = ((p2.y + 1) * height / 2);
+	int deltaX = x2 - x1;
+	int deltaY = y2 - y1;
+	int x = x1;
+	int y = y1;
+	int e = -deltaX;
+	while (x <= x2)
+	{
+		if (e > 0)
+		{
+			y = y + 1;
+			e = e - 2 * (deltaX);
+		}
+		putPixel(x, y, white);
+		x = x + 1;
+		e = e + 2 * (deltaY);
+	}
+
+}
+
 void Renderer::SetBuffer()
 {
 
@@ -228,29 +256,6 @@ void Renderer::Viewport(int w, int h)
 }
 
 // ----------------------------------------------- our added code
-// Draw a line using bresenham algorithm
-void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
-{
-
-	glm::vec3 white = glm::vec3(0, 0, 0);
-	int x = p1.x;
-	int y = p1.y;
-	int deltaX = p2.x - p1.x;
-	int deltaY = p2.y - p1.y;
-	int e = -deltaX;
-	while (x <= p2.x)
-	{
-		if (e > 0)
-		{
-			y =y+ 1;
-			e = e - 2 * (deltaX);
-		}
-		putPixel(x, y, white);
-		x = x + 1;
-		e = e + 2*(deltaY);
-	}
-
-}
 
 // Implement primitive triangle
 //void Renderer::PrimMeshModel(glm::vec3 *vertexPosition)
