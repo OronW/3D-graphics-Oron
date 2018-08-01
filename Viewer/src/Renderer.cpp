@@ -105,6 +105,7 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 	int y2 = ((p2.y + 1) * height / 2);
 	int x = x1;
 	int y = y1;
+	int y22 = y2;
 	
 	int sign_y = 1;
 
@@ -112,18 +113,38 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 	int deltaY = y2 - y1;
 	int e = -deltaX;
 
-	if (deltaY < 0 && deltaX > 0)		// for slope between o to -45.
+	int x_correct = x1;
+	int y_correct = y1;
+
+/*	if ((y2 += -y1) > (x2 += -x1))
+	{
+		y1 = x1;
+		x1 = -y;
+		y2 = x2;
+		x2 = -y22;
+		while (x <= x2)
+		{
+			if (e > 0)
+			{
+				y = (y + 1);
+				e = e - 2 * (deltaX);
+			}
+
+
+			putPixel(x, y, white);
+			x = x + 1;
+			e = e + 2 * (deltaY);
+		}
+	}*/
+
+	if (deltaY < 0 && (x1 < x2))		// for slope between o to -45.
 	{
 		sign_y = -1;
-		int x1_orig = p1.x;
-		int y1_orig = p1.y;
 
-		y2 -= y1;
-		x2 -= x1;
+		y2 += -y1;
+		x2 += -x1;
 		x1 = 0;
 		y1 = 0;
-
-		//y2 *= -1;
 		
 		int x_correct = ((p1.x + 1) * width / 2);
 		int y_correct = ((p1.y + 1) * height / 2);
@@ -160,15 +181,6 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 
 void Renderer::SetBuffer()
 {
-
-	//drawLine(glm::vec3(0, 0, 0), glm::vec3(width, height, 0));
-
-	//how to send camera position?
-	//MeshModel mesh;
-
-	//DrawTriangles( , NULL);
-
-	//how to send vertices array?
 	
 }
 
