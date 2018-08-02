@@ -26,6 +26,7 @@ Renderer::~Renderer()
 
 void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm::vec3>* normals)
 {
+	
 	int i = 0;
 	int size = vertices->size();	// get size of array
 	//std::cout << "size is: " << size << std::endl;
@@ -97,12 +98,19 @@ void Renderer::SetDemoBuffer()
 // Draw a line using bresenham algorithm
 void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 {
+	auto swap = [](int &a, int &b) {int temp = a; a = b; b = temp; };
 
 	glm::vec3 white = glm::vec3(1, 1, 1);
 	int x1 = ((p1.x + 1) * width / 2);
 	int y1 = ((p1.y + 1) * height / 2);
 	int x2 = ((p2.x + 1) * width / 2);
 	int y2 = ((p2.y + 1) * height / 2);
+	if (x1 > x2)
+	{
+		swap(x1, x2);
+		swap(y1, y2);
+	}
+
 	int x = x1;
 	int y = y1;
 	int y22 = y2;
@@ -116,66 +124,39 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 	int x_correct = x1;
 	int y_correct = y1;
 
-/*	if ((y2 += -y1) > (x2 += -x1))
-	{
-		y1 = x1;
-		x1 = -y;
-		y2 = x2;
-		x2 = -y22;
-		while (x <= x2)
-		{
-			if (e > 0)
-			{
-				y = (y + 1);
-				e = e - 2 * (deltaX);
-			}
+	bool swapflag = false;
 
-
-			putPixel(x, y, white);
-			x = x + 1;
-			e = e + 2 * (deltaY);
-		}
-	}*/
-
-	if (deltaY < 0 && (x1 < x2))		// for slope between o to -45.
-	{
+	if (deltaY < 0)		// for slope between o to -45.
 		sign_y = -1;
-
-		y2 += -y1;
-		x2 += -x1;
-		x1 = 0;
-		y1 = 0;
-		
-		int x_correct = ((p1.x + 1) * width / 2);
-		int y_correct = ((p1.y + 1) * height / 2);
-
-		while (x1 <= x2)
-		{
-			if (e > 0)
-			{
-				y1 = (y1 + 1);
-				e = e - 2 * (deltaX);
-			}
-
-			putPixel(x1+x_correct, (sign_y*y1)+y_correct, white);
-			x1 = x1 + 1;
-			e = e + (2 * (deltaY)*sign_y);
-		}
+	if (deltaX < abs(deltaY))
+	{
+		swap(x1, y1);
+		swap(x2, y2);
+		swap(deltaX, deltaY);
+		swapflag = true;
 	}
 
-	else
-	while (x <= x2)
+	y2 += -y1;
+	x2 += -x1;
+	x1 = 0;
+	y1 = 0;
+		
+	if (x2 < 0)
+		abs(x2);
+	while (x1 <= (x2))
 	{
 		if (e > 0)
 		{
-			y = (y + 1);
-			e = e - 2 * (deltaX);
+			y1 = (y1 + 1);
+			e = e - 2 * abs(deltaX);
 		}
-		
-		
-		putPixel(x, y, white);
-		x = x + 1;
-		e = e + 2 * (deltaY);
+
+		if(!swapflag)
+			putPixel(x1+x_correct, (sign_y*y1)+y_correct, white);
+		else
+			putPixel((sign_y*y1) + x_correct, x1 + y_correct, white);
+		x1 = x1 + 1;
+		e = e + (2 * (deltaY)*sign_y);
 	}
 }
 

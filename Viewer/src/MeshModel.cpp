@@ -109,7 +109,9 @@ void MeshModel::LoadFile(const string& fileName)
 		// based on the type parse data
 		if (lineType == "v") /*BUG*/
 		{
-			vertices.push_back(vec3fFromStream(issLine));
+			glm::vec3 p = vec3fFromStream(issLine);
+			p *= 0.1;
+			vertices.push_back(p);
 		}
 		else if (lineType == "f") /*BUG*/
 		{
