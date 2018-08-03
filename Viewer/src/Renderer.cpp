@@ -125,6 +125,7 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 	int y_correct = y1;
 
 	bool swapflag = false;
+	bool algoflag = false;
 
 	if (deltaY < 0)		// for slope between o to -45.
 		sign_y = -1;
@@ -146,10 +147,17 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 	x2 += -x1;
 	x1 = 0;
 	y1 = 0;
-		
+	
+	if ((deltaY > deltaX) && (x > 0 && y > 0))
+		algoflag = true;
+
 	if (x2 < 0)
+	{
 		x2 = abs(x2);
-	while (x1 <= (x2))
+	}
+	
+	if(!algoflag)
+		while (x1 <= (x2))
 	{
 		if (e > 0)
 		{
@@ -162,12 +170,34 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 		}
 		else{
 			putPixel(y1+x_correct, (sign_y*x1 + y_correct), white);
-			//if (deltaY > deltaX)
-				//sign_y *= -1;
+			if (deltaY > deltaX)
+				sign_y = 1;
 		}
 
 		x1 = x1 + 1;
-		e = e + (2 * (deltaY));
+		e = e + (2 * (deltaY)*sign_y);
+	}
+
+	else	
+		while (x1 <= (x2))
+	{
+		if (e > 0)
+		{
+			y1 = (y1 + 1);
+			e = e - 2 * abs(deltaX);
+		}
+
+		if (!swapflag) {
+			putPixel(x1 + x_correct, (sign_y*y1) + y_correct, white);
+		}
+		else {
+			putPixel(y1 + x_correct, (-sign_y*x1 + y_correct), white);
+			if (deltaY > deltaX)
+				sign_y = 1;
+		}
+
+		x1 = x1 + 1;
+		e = e + (2 * (deltaY)*sign_y);
 	}
 }
 
