@@ -161,13 +161,13 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 			putPixel(x1 + x_correct, (sign_y*y1) + y_correct, white);
 		}
 		else{
-			putPixel((y1)+x_correct, x1 + y_correct, white);
-			if (deltaY > deltaX)
-				sign_y = 1;
+			putPixel(y1+x_correct, (sign_y*x1 + y_correct), white);
+			//if (deltaY > deltaX)
+				//sign_y *= -1;
 		}
 
 		x1 = x1 + 1;
-		e = e + (2 * (deltaY)*sign_y);
+		e = e + (2 * (deltaY));
 	}
 }
 

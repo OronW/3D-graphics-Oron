@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 	ImGuiIO& io = SetupDearImgui(window);
     // Main loop - the famous "Game Loop" in video games :)
 
-	scene.LoadOBJModel("C:\\Users\\oron\\Downloads\\objex\\2tri.obj");
+	scene.LoadOBJModel("C:\\Users\\Oron2600\\3D Objects\\2tri.obj");
 
 	
     while (!glfwWindowShouldClose(window))
