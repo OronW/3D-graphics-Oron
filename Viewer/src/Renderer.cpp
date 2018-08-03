@@ -132,7 +132,13 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 	{
 		swap(x1, y1);
 		swap(x2, y2);
+		if (x1 > x2)
+		{
+			swap(x1, x2);
+			swap(y1, y2);
+		}
 		swap(deltaX, deltaY);
+		//e = -deltaX;
 		swapflag = true;
 	}
 
@@ -142,7 +148,7 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 	y1 = 0;
 		
 	if (x2 < 0)
-		abs(x2);
+		x2 = abs(x2);
 	while (x1 <= (x2))
 	{
 		if (e > 0)
@@ -151,10 +157,15 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 			e = e - 2 * abs(deltaX);
 		}
 
-		if(!swapflag)
-			putPixel(x1+x_correct, (sign_y*y1)+y_correct, white);
-		else
-			putPixel((sign_y*y1) + x_correct, x1 + y_correct, white);
+		if (!swapflag) {
+			putPixel(x1 + x_correct, (sign_y*y1) + y_correct, white);
+		}
+		else{
+			putPixel((y1)+x_correct, x1 + y_correct, white);
+			if (deltaY > deltaX)
+				sign_y = 1;
+		}
+
 		x1 = x1 + 1;
 		e = e + (2 * (deltaY)*sign_y);
 	}
