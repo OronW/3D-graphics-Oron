@@ -12,6 +12,9 @@ float sy = 1.0f;
 float scaler = 1.0f;
 bool sx_original = false, sy_original = false, sxy_original = false;
 bool scaling = false;
+float tx = 0, ty = 0,  tz=0;
+bool translating = false;
+
 bool showDemoWindow = false;
 bool showAnotherWindow = false;
 bool showFile = false;
@@ -49,12 +52,21 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::Begin("Our New Menu");
 		ImGui::Checkbox("Scaling", &scaling);
 		ImGui::Checkbox("rotating", &rotatebytheta);
-	
+		ImGui::Checkbox("Translating", &translating);
 
 		ImGui::End();
 
 	}
 
+	if (translating)
+	{
+		ImGui::Begin("Translating");
+		ImGui::SliderFloat("x translate value ", &tx, -50.0f, 50.0f);
+		ImGui::SliderFloat("y translate value ", &ty, -50.0f, 50.0f);
+		if (ImGui::Button("Close Me"))
+			translating = false;
+		ImGui::End();
+	}
 	if (scaling)
 	{
 		//static float f = 1.0;

@@ -11,6 +11,9 @@ extern float sy;
 extern float scaler;
 extern float theta;
 extern bool rotatebytheta;
+extern bool translating;
+extern float tx;
+extern float ty;
 Renderer::Renderer() : width(1280), height(720)
 {
 	initOpenGLRendering();
@@ -41,8 +44,8 @@ void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm
 		glm::vec3 pointB = (*vertices)[i++];	// get second point
 		glm::vec3 pointC = (*vertices)[i++];	// get third point
 
-		glm::mat2x2 matA = glm::mat2x2 (sx*scaler, 0, 0, sy*scaler);
-		glm::vec2 transA = glm::vec2 (pointA.x, pointA.y);
+		glm::mat2x2 matA = glm::mat2x2(sx*scaler, 0, 0, sy*scaler);
+		glm::vec2 transA = glm::vec2(pointA.x, pointA.y);
 		glm::mat2x2 matB = glm::mat2x2(sx*scaler, 0, 0, sy*scaler);
 		glm::vec2 transB = glm::vec2(pointB.x, pointB.y);
 		glm::mat2x2 matC = glm::mat2x2(sx*scaler, 0, 0, sy*scaler);
@@ -63,20 +66,38 @@ void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm
 		if (rotatebytheta)
 		{
 			glm::mat2x2 rotA = glm::mat2x2(cos(theta), -sin(theta), sin(theta), cos(theta));
-		
+
 			glm::vec2 rotationA = rotA * transA;
 			pointA.x = rotationA.x;
 			pointA.y = rotationA.y;
-		
+
 			glm::vec2 rotationB = rotA * transB;
 			pointB.x = rotationB.x;
 			pointB.y = rotationB.y;
-		
+
 			glm::vec2 rotationC = rotA * transC;
 			pointC.x = rotationC.x;
 			pointC.y = rotationC.y;
 		}
+		if (translating)
+		{
+			glm::mat3x3 translate = glm::mat3x3(1, 0, tx, 0, 1, ty, 0, 0, 1);
+			glm::vec3 homA = glm::vec3(pointA.x, pointA.y, 1);
+			glm::vec3 homB = glm::vec3(pointB.x, pointB.y, 1);
+			glm::vec3 homC = glm::vec3(pointC.x, pointC.y, 1);
 
+			glm::vec3 translatedA = translate * homA;
+			pointA.x = translatedA.x / translatedA.z;
+			pointA.y = translatedA.y / translatedA.z;
+
+			glm::vec3 translatedB = translate * homB;
+			pointB.x = translatedB.x / translatedB.z;
+			pointB.y = translatedB.y / translatedB.z;
+
+			glm::vec3 translatedC = translate * homC;
+			pointC.x = translatedC.x / translatedC.z;
+			pointC.y = translatedC.y / translatedC.z;
+		}
 		// draw 3 lines
 		drawLine(pointA, pointB);		// draw the 3 lines
 		drawLine(pointB, pointC);
