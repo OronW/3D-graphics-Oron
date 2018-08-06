@@ -6,6 +6,11 @@
 #include <nfd.h>
 #include "Scene.h"
 
+float sx = 1.0f;
+float sy = 1.0f;
+float scaler = 1.0f;
+
+bool scaling = false;
 bool showDemoWindow = false;
 bool showAnotherWindow = false;
 bool showFile = false;
@@ -26,7 +31,7 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		static float f = 0.0f;
 		static int counter = 0;
 		ImGui::Text("Hello, world!");                           // Display some text (you can use a format string too)
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
+		ImGui::SliderFloat("float", &sx, 0.0f, 3.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
 		ImGui::ColorEdit3("clear color", (float*)&clearColor); // Edit 3 floats representing a color
 
 		ImGui::Checkbox("Demo Window", &showDemoWindow);      // Edit bools storing our windows open/close state
@@ -39,6 +44,28 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
+
+		ImGui::Begin("Our New Menu");
+		ImGui::Checkbox("Scaling", &scaling);
+
+
+		ImGui::End();
+
+	}
+
+	if (scaling)
+	{
+		//static float f = 1.0;
+		ImGui::Begin("scaling");
+		ImGui::SliderFloat("x scale value ", &sx, 0.0f, 20.0f);
+		ImGui::SliderFloat("y scale value ", &sy, 0.0f, 20.0f);
+		ImGui::SliderFloat("locked scale value ", &scaler, 0.0f, 20.0f);
+		if (ImGui::Button("Close Me"))
+			scaling = false;
+		ImGui::End();
+
+	
+
 	}
 
 	// 2. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.

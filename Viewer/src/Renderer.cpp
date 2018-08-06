@@ -6,6 +6,9 @@
 #include "MeshModel.h"
 
 #define INDEX(width,x,y,c) ((x)+(y)*(width))*3+(c)
+extern float sx;
+extern float sy;
+extern float scaler;
 
 Renderer::Renderer() : width(1280), height(720)
 {
@@ -36,6 +39,25 @@ void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm
 		glm::vec3 pointA = (*vertices)[i++];	// get first point
 		glm::vec3 pointB = (*vertices)[i++];	// get second point
 		glm::vec3 pointC = (*vertices)[i++];	// get third point
+
+		glm::mat2x2 matA = glm::mat2x2 (sx*scaler, 0, 0, sy*scaler);
+		glm::vec2 transA = glm::vec2 (pointA.x, pointA.y);
+		glm::mat2x2 matB = glm::mat2x2(sx*scaler, 0, 0, sy*scaler);
+		glm::vec2 transB = glm::vec2(pointB.x, pointB.y);
+		glm::mat2x2 matC = glm::mat2x2(sx*scaler, 0, 0, sy*scaler);
+		glm::vec2 transC = glm::vec2(pointC.x, pointC.y);
+
+		glm::vec2 ansA = matA * transA;
+		pointA.x = ansA.x;
+		pointA.y = ansA.y;
+
+		glm::vec2 ansB = matB * transB;
+		pointB.x = ansB.x;
+		pointB.y = ansB.y;
+
+		glm::vec2 ansC = matC * transC;
+		pointC.x = ansC.x;
+		pointC.y = ansC.y;
 
 		// draw 3 lines
 		drawLine(pointA, pointB);		// draw the 3 lines

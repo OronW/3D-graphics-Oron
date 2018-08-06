@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 /*
  * Renderer class. This class takes care of all the rendering operations needed for rendering a full scene to the screen.
  * It contains all the data structures we learned in class plus your own data structures.
