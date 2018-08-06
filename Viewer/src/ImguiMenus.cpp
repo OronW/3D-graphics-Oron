@@ -9,7 +9,7 @@
 float sx = 1.0f;
 float sy = 1.0f;
 float scaler = 1.0f;
-
+bool sx_original = false, sy_original = false, sxy_original = false;
 bool scaling = false;
 bool showDemoWindow = false;
 bool showAnotherWindow = false;
@@ -60,14 +60,27 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::SliderFloat("x scale value ", &sx, 0.0f, 20.0f);
 		ImGui::SliderFloat("y scale value ", &sy, 0.0f, 20.0f);
 		ImGui::SliderFloat("locked scale value ", &scaler, 0.0f, 20.0f);
+		ImGui::Checkbox("resize to original X", &sx_original);
+		ImGui::Checkbox("resize to original Y", &sy_original);
+		ImGui::Checkbox("resize to original X & Y", &sxy_original);
 		if (ImGui::Button("Close Me"))
 			scaling = false;
 		ImGui::End();
 
-	
-
 	}
-
+	if (sx_original)
+	{
+		sx = 1.0f;
+	}
+	if (sy_original)
+	{
+		sy = 1.0f;
+	}
+	if (sxy_original)
+	{
+		sx = 1.0f;
+		sy = 1.0f;
+	}
 	// 2. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.
 	if (showAnotherWindow)
 	{

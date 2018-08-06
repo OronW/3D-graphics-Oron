@@ -45,11 +45,11 @@ int main(int argc, char **argv)
 	ImGuiIO& io = SetupDearImgui(window);
     // Main loop - the famous "Game Loop" in video games :)
 
-	scene.LoadOBJModel("C:\\Users\\oron\\Downloads\\objex\\bunny.obj");
+	//scene.LoadOBJModel("C:\\Users\\galsh\\Desktop\\graphics\\obj_examples\\Bunny.obj");
 
 	
     while (!glfwWindowShouldClose(window))
-    {
+    { 
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
         // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
