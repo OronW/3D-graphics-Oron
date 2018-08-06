@@ -10,7 +10,7 @@ extern float sx;
 extern float sy;
 extern float scaler;
 extern float theta;
-
+extern bool rotatebytheta;
 Renderer::Renderer() : width(1280), height(720)
 {
 	initOpenGLRendering();
@@ -60,21 +60,22 @@ void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm
 		pointC.x = ansC.x;
 		pointC.y = ansC.y;
 
-
-		glm::mat2x2 rotA = glm::mat2x2(cos(theta), -sin(theta), sin(theta), cos(theta));
+		if (rotatebytheta)
+		{
+			glm::mat2x2 rotA = glm::mat2x2(cos(theta), -sin(theta), sin(theta), cos(theta));
 		
-		glm::vec2 rotationA = rotA * transA;
-		pointA.x = rotationA.x;
-		pointA.y = rotationA.y;
-
-		glm::vec2 rotationB = rotA * transB;
-		pointB.x = rotationB.x;
-		pointB.y = rotationB.y;
-
-		glm::vec2 rotationC = rotA * transC;
-		pointC.x = rotationC.x;
-		pointC.y = rotationC.y;
-
+			glm::vec2 rotationA = rotA * transA;
+			pointA.x = rotationA.x;
+			pointA.y = rotationA.y;
+		
+			glm::vec2 rotationB = rotA * transB;
+			pointB.x = rotationB.x;
+			pointB.y = rotationB.y;
+		
+			glm::vec2 rotationC = rotA * transC;
+			pointC.x = rotationC.x;
+			pointC.y = rotationC.y;
+		}
 
 		// draw 3 lines
 		drawLine(pointA, pointB);		// draw the 3 lines
