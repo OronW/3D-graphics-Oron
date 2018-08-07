@@ -9,6 +9,8 @@
 
 
 using namespace std; 
+extern float tx,ty,tz,sx, sy, sz, scaler,theta_x,theta_y,theta_z;
+extern bool setWorldTransform;
 
 // A struct for processing a single line in a wafefront obj file:
 // https://en.wikipedia.org/wiki/Wavefront_.obj_file
@@ -147,8 +149,47 @@ void MeshModel::LoadFile(const string& fileName)
 	}
 }
 
-const vector<glm::vec3>* MeshModel::Draw()
+void MeshModel::createTransformation()
+{
+	glm::mat4x4 scale = glm::mat4x4(sx*scaler, 0, 0, 0,
+									0, sy*scaler, 0, 0,
+									0, 0, sz*scaler, 0,
+									0, 0, 0, 1);
+	
+	glm::mat4x4 rotX = glm::mat4x4(1,		0,			 0,			 0,
+									0, cos(theta_x), -sin(theta_x),  0,
+									0, sin(theta_x), cos(theta_x),   0,
+									0,		0,  		 0,			 1);
+
+	glm::mat4x4 rotY = glm::mat4x4(cos(theta_y), 0, sin(theta_y), 0,
+									0,			 1,		0,		  0,
+								  -sin(theta_y), 0, cos(theta_y), 0,
+									0,			 0,		0,		  1);
+
+	glm::mat4x4 rotZ = glm::mat4x4(cos(theta_z), -sin(theta_z), 0, 0,
+							    	sin(theta_z), cos(theta_z), 0, 0,
+									0,				 0,			1, 0,
+									0,				 0,			0, 1);
+	
+	glm::mat4x4 translate = glm::transpose(glm::mat4x4({ 1, 0 ,0, tx },
+													   { 0, 1, 0, ty },
+													   { 0, 0, 1, tz },
+													   { 0, 0, 0, 1 }));
+	
+	if(setWorldTransform)
+		worldTransform = scale * rot*translate;			// rot =??? X? y? z?
+	else
+		objTransform = scale * rot*translate;			// rot = ???.........
+}
+
+const vector<glm::vec4>* MeshModel::Draw()
 {
 	//Returns the points to draw the meshmodel
-	return vertexPositions;
+	for (int i = 0; i < vertexPositions->size(); i++)
+	{
+		auto p = (*vertexPositions)[i];
+		auto q = glm::vec4(p.x, p.y, p.z, 1);
+		(*vertexPositions_transformed)[i] = worldTransform * objTransform*q;
+	}
+	return vertexPositions_transformed;
 }

@@ -5,6 +5,8 @@
 // open file dialog cross platform https://github.com/mlabbe/nativefiledialog
 #include <nfd.h>
 #include "Scene.h"
+bool setWorldTranform = false;
+bool setobjTranform = false;
 bool rotateX = false, rotateY = false, rotateZ = false;
 bool rotatebytheta = false;
 float theta_x =0.0f, theta_y=0.0f, theta_z = 0.0f;
@@ -65,6 +67,7 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::Begin("Translating");
 		ImGui::SliderFloat("x translate value ", &tx, -1.0f, 1.0f);
 		ImGui::SliderFloat("y translate value ", &ty, -1.0f, 1.0f);
+		ImGui::SliderFloat("z translate value ", &tz, -1.0f, 1.0f);
 		if (ImGui::Button("Close Me"))
 			translating = false;
 		ImGui::End();

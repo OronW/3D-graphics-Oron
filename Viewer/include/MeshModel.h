@@ -15,6 +15,7 @@ class MeshModel : public Model
 protected :
 	//MeshModel() {}
 	vector<glm::vec3> *vertexPositions;
+	vector<glm::vec4> *vertexPositions_transformed;
 	// Add more attributes.
 	glm::mat4x4 worldTransform;
 	glm::mat4x4 normalTransform;
@@ -25,7 +26,8 @@ public:
 	MeshModel(const string& fileName);
 	~MeshModel();
 	void LoadFile(const string& fileName);
-	const vector<glm::vec3>* Draw();
+	void createTransformation();
+	const vector<glm::vec4>* Draw();
 
 	vector<glm::vec3>* MeshModel::getVertices()
 	{

@@ -35,28 +35,27 @@ Renderer::~Renderer()
 
 void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm::vec3>* normals)
 {
-	
-	int i = 0;
 	int size = vertices->size();	// get size of array
 	//std::cout << "size is: " << size << std::endl;
 
-	while (i < size)				// draw triangles of 3 verticies at a time
+	for (int i = 0; i < size; i++)				// draw triangles of 3 verticies at a time
 	{
 		glm::vec3 pointA = (*vertices)[i++];	// get first point
 		glm::vec3 pointB = (*vertices)[i++];	// get second point
 		glm::vec3 pointC = (*vertices)[i++];	// get third point
+		
+		glm::vec4 homogeneousA = glm::vec4(pointA.x, pointA.y, pointA.z, 1);
+		//glm::mat4x4 matB = glm::mat4x4(sx*scaler, 0, 0, sy*scaler);
+		glm::vec4 homogeneousB = glm::vec4(pointB.x, pointB.y, pointB.z, 1);
+		//glm::mat4x4 matC = glm::mat4x4(sx*scaler, 0, 0, sy*scaler);
+		glm::vec4 homogeneousC = glm::vec4(pointC.x, pointC.y, pointC.z, 1);
+		
 
 		glm::mat4x4 matA = glm::mat4x4(sx*scaler ,0		,	0	,	0,
 										0,		sy*scaler,	0	,	0,
 										0,			0	, sz*scaler, 0,
 										0,			0	,	0	,	1);
-		glm::vec4 homogeneousA = glm::vec4(pointA.x, pointA.y, pointA.z, 1);
-		
-		
-		//glm::mat4x4 matB = glm::mat4x4(sx*scaler, 0, 0, sy*scaler);
-		glm::vec4 homogeneousB = glm::vec4(pointB.x, pointB.y, pointB.z, 1);
-		//glm::mat4x4 matC = glm::mat4x4(sx*scaler, 0, 0, sy*scaler);
-		glm::vec4 homogeneousC = glm::vec4(pointC.x, pointC.y, pointC.z, 1);
+
 
 		glm::vec4 ansA = matA * homogeneousA;
 		pointA.x = ansA.x;
@@ -75,20 +74,20 @@ void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm
 
 		if (rotatebytheta)
 		{
-			glm::mat4x4 rotX = glm::mat4x4( 1,	 0,				0,			0,
-											0, cos(theta_x), -sin(theta_x), 0,
-											0, sin(theta_x), cos(theta_x),  0,
-											0,	0,				0,			1);
-
-			glm::mat4x4 rotY = glm::mat4x4(cos(theta_y), 0, sin(theta_y),	0,
-											0,			 1,		0,			0,
-										 -sin(theta_y),	 0,  cos(theta_y),  0,
-											0,			 0,		0,			1);
-
-			glm::mat4x4 rotZ = glm::mat4x4(cos(theta_z), -sin(theta_z), 0,0,
-											sin(theta_z), cos(theta_z) ,0,0,
-											0,				0,			1,0,
-											0,				0,			0,1);
+			//glm::mat4x4 rotX = glm::mat4x4( 1,	 0,				0,			0,
+			//								0, cos(theta_x), -sin(theta_x), 0,
+			//								0, sin(theta_x), cos(theta_x),  0,
+			//								0,	0,				0,			1);
+			//
+			//glm::mat4x4 rotY = glm::mat4x4(cos(theta_y), 0, sin(theta_y),	0,
+			//								0,			 1,		0,			0,
+			//							 -sin(theta_y),	 0,  cos(theta_y),  0,
+			//								0,			 0,		0,			1);
+			//
+			//glm::mat4x4 rotZ = glm::mat4x4(cos(theta_z), -sin(theta_z), 0,0,
+			//								sin(theta_z), cos(theta_z) ,0,0,
+			//								0,				0,			1,0,
+			//								0,				0,			0,1);
 
 			// rotation by X
 			if (rotateX) {
@@ -144,10 +143,10 @@ void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm
 		}
 		if (translating)
 		{
-			glm::mat4x4 translate = glm::transpose(glm::mat4x4({ 1, 0 ,0, tx },
-												{ 0, 1, 0, ty },
-												{ 0, 0, 1, tz },
-												{ 0, 0, 0, 1 }));
+			glm::mat4x4 translate = glm::transpose(glm::mat4x4( { 1, 0 ,0, tx },
+																{ 0, 1, 0, ty },
+																{ 0, 0, 1, tz },
+																{ 0, 0, 0, 1 }));
 			glm::vec4 homA = glm::vec4(pointA.x, pointA.y, pointA.z, 1);
 			glm::vec4 homB = glm::vec4(pointB.x, pointB.y, pointB.z, 1);
 			glm::vec4 homC = glm::vec4(pointC.x, pointC.y, pointC.z, 1);
@@ -155,14 +154,17 @@ void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm
 			glm::vec4 translatedA = translate * homA;
 			pointA.x = translatedA.x;/// translatedA.w;
 			pointA.y = translatedA.y;/// translatedA.w;
+			pointA.z = translatedA.z;
 
 			glm::vec4 translatedB = translate * homB;
 			pointB.x = translatedB.x;/// translatedB.w;
 			pointB.y = translatedB.y;// / translatedB.w;
+			pointB.z = translatedB.z;
 
 			glm::vec4 translatedC = translate * homC;
 			pointC.x = translatedC.x;/// translatedC.w;
 			pointC.y = translatedC.y;// / translatedC.w;
+			pointC.z = translatedC.z;
 		}
 		// draw 3 lines
 		drawLine(pointA, pointB);		// draw the 3 lines

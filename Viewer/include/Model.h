@@ -10,5 +10,5 @@ class Model
 {
 public:
 	virtual ~Model() {}
-	virtual const vector<glm::vec3>* Draw() = 0;
+	virtual const vector<glm::vec4>* Draw() = 0;
 };
