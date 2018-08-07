@@ -5,10 +5,12 @@
 // open file dialog cross platform https://github.com/mlabbe/nativefiledialog
 #include <nfd.h>
 #include "Scene.h"
+bool rotateX = false, rotateY = false, rotateZ = false;
 bool rotatebytheta = false;
-float theta= 0.0f;
+float theta_x =0.0f, theta_y=0.0f, theta_z = 0.0f;
 float sx = 1.0f;
 float sy = 1.0f;
+float sz = 1.0f;
 float scaler = 1.0f;
 bool sx_original = false, sy_original = false, sxy_original = false;
 bool scaling = false;
@@ -61,18 +63,19 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 	if (translating)
 	{
 		ImGui::Begin("Translating");
-		ImGui::SliderFloat("x translate value ", &tx, -50.0f, 50.0f);
-		ImGui::SliderFloat("y translate value ", &ty, -50.0f, 50.0f);
+		ImGui::SliderFloat("x translate value ", &tx, -1.0f, 1.0f);
+		ImGui::SliderFloat("y translate value ", &ty, -1.0f, 1.0f);
 		if (ImGui::Button("Close Me"))
 			translating = false;
 		ImGui::End();
 	}
 	if (scaling)
 	{
-		//static float f = 1.0;
+		
 		ImGui::Begin("scaling");
 		ImGui::SliderFloat("x scale value ", &sx, 0.0f, 20.0f);
 		ImGui::SliderFloat("y scale value ", &sy, 0.0f, 20.0f);
+		ImGui::SliderFloat("z scale value ", &sz, 0.0f, 20.0f);
 		ImGui::SliderFloat("locked scale value ", &scaler, 0.0f, 20.0f);
 
 		ImGui::Checkbox("resize to original X", &sx_original);
@@ -87,7 +90,12 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 	if (rotatebytheta)
 	{
 		ImGui::Begin("Rotating");
-		ImGui::SliderFloat("rotate ", &theta, -90.0f, 90.0f);
+		ImGui::Checkbox("rotatingX", &rotateX); 
+		ImGui::Checkbox("rotatingY", &rotateY); 
+		ImGui::Checkbox("rotatingZ", &rotateZ); 
+		ImGui::SliderFloat("rotate by X", &theta_x, -90.0f, 90.0f);
+		ImGui::SliderFloat("rotate by Y", &theta_y, -90.0f, 90.0f);
+		ImGui::SliderFloat("rotate by Z", &theta_z, -90.0f, 90.0f);
 		if (ImGui::Button("Close Me"))
 			rotatebytheta = false;
 		ImGui::End();
