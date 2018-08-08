@@ -33,139 +33,18 @@ Renderer::~Renderer()
 	delete[] colorBuffer;
 }
 
-void Renderer::DrawTriangles(const vector<glm::vec3>* vertices, const vector<glm::vec3>* normals)
+void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm::vec3>* normals)
 {
 	int size = vertices->size();	// get size of array
 	//std::cout << "size is: " << size << std::endl;
 
-	for (int i = 0; i < size; i++)				// draw triangles of 3 verticies at a time
+	for (int i = 0; i < size/3; i++)				// draw triangles of 3 verticies at a time
 	{
-		glm::vec3 pointA = (*vertices)[i++];	// get first point
-		glm::vec3 pointB = (*vertices)[i++];	// get second point
-		glm::vec3 pointC = (*vertices)[i++];	// get third point
+		glm::vec3 pointA = (*vertices)[3*i];	// get first point
+		glm::vec3 pointB = (*vertices)[3*i+1];	// get second point
+		glm::vec3 pointC = (*vertices)[3*i+2];	// get third point
 		
-		glm::vec4 homogeneousA = glm::vec4(pointA.x, pointA.y, pointA.z, 1);
-		//glm::mat4x4 matB = glm::mat4x4(sx*scaler, 0, 0, sy*scaler);
-		glm::vec4 homogeneousB = glm::vec4(pointB.x, pointB.y, pointB.z, 1);
-		//glm::mat4x4 matC = glm::mat4x4(sx*scaler, 0, 0, sy*scaler);
-		glm::vec4 homogeneousC = glm::vec4(pointC.x, pointC.y, pointC.z, 1);
 		
-
-		glm::mat4x4 matA = glm::mat4x4(sx*scaler ,0		,	0	,	0,
-										0,		sy*scaler,	0	,	0,
-										0,			0	, sz*scaler, 0,
-										0,			0	,	0	,	1);
-
-
-		glm::vec4 ansA = matA * homogeneousA;
-		pointA.x = ansA.x;
-		pointA.y = ansA.y;
-		pointA.z = ansA.z;
-
-		glm::vec4 ansB = matA * homogeneousB;
-		pointB.x = ansB.x;
-		pointB.y = ansB.y;
-		pointB.z = ansB.z;
-
-		glm::vec4 ansC = matA * homogeneousC;
-		pointC.x = ansC.x;
-		pointC.y = ansC.y;
-		pointC.z = ansC.z;
-
-		if (rotatebytheta)
-		{
-			//glm::mat4x4 rotX = glm::mat4x4( 1,	 0,				0,			0,
-			//								0, cos(theta_x), -sin(theta_x), 0,
-			//								0, sin(theta_x), cos(theta_x),  0,
-			//								0,	0,				0,			1);
-			//
-			//glm::mat4x4 rotY = glm::mat4x4(cos(theta_y), 0, sin(theta_y),	0,
-			//								0,			 1,		0,			0,
-			//							 -sin(theta_y),	 0,  cos(theta_y),  0,
-			//								0,			 0,		0,			1);
-			//
-			//glm::mat4x4 rotZ = glm::mat4x4(cos(theta_z), -sin(theta_z), 0,0,
-			//								sin(theta_z), cos(theta_z) ,0,0,
-			//								0,				0,			1,0,
-			//								0,				0,			0,1);
-
-			// rotation by X
-			if (rotateX) {
-				glm::vec4 rotationAx = rotX * homogeneousA;
-				pointA.x = rotationAx.x;
-				pointA.y = rotationAx.y;
-				pointA.z = rotationAx.z;
-
-				glm::vec4 rotationBx = rotX * homogeneousB;
-				pointB.x = rotationBx.x;
-				pointB.y = rotationBx.y;
-				pointB.z = rotationBx.z;
-
-				glm::vec4 rotationCx = rotX * homogeneousC;
-				pointC.x = rotationCx.x;
-				pointC.y = rotationCx.y;
-				pointC.z = rotationCx.z;
-			}
-			//rotation by Y
-			if (rotateY) {
-				glm::vec4 rotationAy = rotY * homogeneousA;
-				pointA.x = rotationAy.x;
-				pointA.y = rotationAy.y;
-				pointA.z = rotationAy.z;
-
-				glm::vec4 rotationBy = rotY * homogeneousB;
-				pointB.x = rotationBy.x;
-				pointB.y = rotationBy.y;
-				pointB.z = rotationBy.z;
-
-				glm::vec4 rotationCy = rotY * homogeneousC;
-				pointC.x = rotationCy.x;
-				pointC.y = rotationCy.y;
-				pointC.z = rotationCy.z;
-			}
-			//rotation by z
-			if (rotateZ) {
-				glm::vec4 rotationAz = rotZ * homogeneousA;
-				pointA.x = rotationAz.x;
-				pointA.y = rotationAz.y;
-				pointA.z = rotationAz.z;
-
-				glm::vec4 rotationBz = rotZ * homogeneousB;
-				pointB.x = rotationBz.x;
-				pointB.y = rotationBz.y;
-				pointB.z = rotationBz.z;
-
-				glm::vec4 rotationCz = rotZ * homogeneousC;
-				pointC.x = rotationCz.x;
-				pointC.y = rotationCz.y;
-				pointC.z = rotationCz.z;
-			}
-		}
-		if (translating)
-		{
-			glm::mat4x4 translate = glm::transpose(glm::mat4x4( { 1, 0 ,0, tx },
-																{ 0, 1, 0, ty },
-																{ 0, 0, 1, tz },
-																{ 0, 0, 0, 1 }));
-			glm::vec4 homA = glm::vec4(pointA.x, pointA.y, pointA.z, 1);
-			glm::vec4 homB = glm::vec4(pointB.x, pointB.y, pointB.z, 1);
-			glm::vec4 homC = glm::vec4(pointC.x, pointC.y, pointC.z, 1);
-
-			glm::vec4 translatedA = translate * homA;
-			pointA.x = translatedA.x;/// translatedA.w;
-			pointA.y = translatedA.y;/// translatedA.w;
-			pointA.z = translatedA.z;
-
-			glm::vec4 translatedB = translate * homB;
-			pointB.x = translatedB.x;/// translatedB.w;
-			pointB.y = translatedB.y;// / translatedB.w;
-			pointB.z = translatedB.z;
-
-			glm::vec4 translatedC = translate * homC;
-			pointC.x = translatedC.x;/// translatedC.w;
-			pointC.y = translatedC.y;// / translatedC.w;
-			pointC.z = translatedC.z;
-		}
 		// draw 3 lines
 		drawLine(pointA, pointB);		// draw the 3 lines
 		drawLine(pointB, pointC);

@@ -6,6 +6,7 @@ using namespace std;
 void Scene::LoadOBJModel(string fileName)
 {
 	MeshModel *model = new MeshModel(fileName);
+	model->createTransformation();
 	models.push_back(model);
 }
 
@@ -17,7 +18,8 @@ void Scene::Draw()
 
 	for (int i = 0; i < models.size(); i++)
 	{
-		const std::vector<glm::vec3>* tris = models[i]->Draw();
+		models[i]->createTransformation();
+		const std::vector<glm::vec4>* tris = models[i]->Draw();
 		renderer->DrawTriangles(tris);
 	}
 

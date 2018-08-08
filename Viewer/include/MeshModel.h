@@ -26,7 +26,7 @@ public:
 	MeshModel(const string& fileName);
 	~MeshModel();
 	void LoadFile(const string& fileName);
-	void createTransformation();
+	virtual void createTransformation();
 	const vector<glm::vec4>* Draw();
 
 	vector<glm::vec3>* MeshModel::getVertices()

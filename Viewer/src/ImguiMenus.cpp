@@ -5,8 +5,7 @@
 // open file dialog cross platform https://github.com/mlabbe/nativefiledialog
 #include <nfd.h>
 #include "Scene.h"
-bool setWorldTranform = false;
-bool setobjTranform = false;
+bool setWorldTransform = false;
 bool rotateX = false, rotateY = false, rotateZ = false;
 bool rotatebytheta = false;
 float theta_x =0.0f, theta_y=0.0f, theta_z = 0.0f;
@@ -57,6 +56,8 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::Checkbox("Scaling", &scaling);
 		ImGui::Checkbox("rotating", &rotatebytheta);
 		ImGui::Checkbox("Translating", &translating);
+		if (ImGui::Button("SetWorldTransform"))
+			setWorldTransform = true;
 
 		ImGui::End();
 
@@ -81,7 +82,8 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::SliderFloat("z scale value ", &sz, 0.0f, 20.0f);
 		ImGui::SliderFloat("locked scale value ", &scaler, 0.0f, 20.0f);
 
-		ImGui::Checkbox("resize to original X", &sx_original);
+		if(ImGui::Button("resize to original X"))
+			sx = 1.0f;
 		ImGui::Checkbox("resize to original Y", &sy_original);
 		ImGui::Checkbox("resize to original X & Y", &sxy_original);
 		if (ImGui::Button("Close Me"))

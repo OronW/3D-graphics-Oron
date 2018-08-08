@@ -78,12 +78,16 @@ glm::vec2 vec2fFromStream(std::istream& issLine)
 
 MeshModel::MeshModel()
 {
+	worldTransform = glm::mat4(1);
+	objTransform = glm::mat4(1);
 	//this.renderer = renderer;
 }
 
 MeshModel::MeshModel(const string& fileName)
 {
 	LoadFile(fileName);
+	worldTransform = glm::mat4(1);
+	objTransform = glm::mat4(1);
 }
 
 MeshModel::~MeshModel()
@@ -136,6 +140,7 @@ void MeshModel::LoadFile(const string& fileName)
 	//vertexPositions={v1,v2,v3,v1,v3,v4}
 
 	vertexPositions = new vector<glm::vec3>; /*BUG*/
+	vertexPositions_transformed = new vector<glm::vec4>; /*BUG*/
 	// iterate through all stored faces and create triangles
 	int k=0;
 	//for(vector<FaceIdx>::iterator it = faces.begin(); it != faces.end(); ++it)
@@ -147,6 +152,7 @@ void MeshModel::LoadFile(const string& fileName)
 			vertexPositions->push_back(vertices[vertex_index]); /*BUG*/
 		}
 	}
+	vertexPositions_transformed->resize(vertexPositions->size());
 }
 
 void MeshModel::createTransformation()
@@ -170,16 +176,16 @@ void MeshModel::createTransformation()
 							    	sin(theta_z), cos(theta_z), 0, 0,
 									0,				 0,			1, 0,
 									0,				 0,			0, 1);
-	
+	glm::mat4x4 rot = rotZ * rotY*rotX;
 	glm::mat4x4 translate = glm::transpose(glm::mat4x4({ 1, 0 ,0, tx },
 													   { 0, 1, 0, ty },
 													   { 0, 0, 1, tz },
 													   { 0, 0, 0, 1 }));
 	
 	if(setWorldTransform)
-		worldTransform = scale * rot*translate;			// rot =??? X? y? z?
+		worldTransform = scale * rot*translate;			
 	else
-		objTransform = scale * rot*translate;			// rot = ???.........
+		objTransform = scale * rot*translate;			
 }
 
 const vector<glm::vec4>* MeshModel::Draw()

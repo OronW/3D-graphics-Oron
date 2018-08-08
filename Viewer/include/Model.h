@@ -11,4 +11,5 @@ class Model
 public:
 	virtual ~Model() {}
 	virtual const vector<glm::vec4>* Draw() = 0;
+	virtual void createTransformation() = 0;
 };
