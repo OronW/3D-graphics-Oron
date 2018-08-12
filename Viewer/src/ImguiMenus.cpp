@@ -77,10 +77,17 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		
 		ImGui::Begin("scaling");
 		ImGui::SliderFloat("x scale value ", &sx, 0.0f, 20.0f);
+		ImGui::SameLine();
+		ImGui::InputFloat(" X scale", &sx, 1.00f, 20.0f);
 		ImGui::SliderFloat("y scale value ", &sy, 0.0f, 20.0f);
+		ImGui::SameLine();
+		ImGui::InputFloat(" Y scale", &sy, 1.00f, 20.0f);
 		ImGui::SliderFloat("z scale value ", &sz, 0.0f, 20.0f);
+		ImGui::SameLine();
+		ImGui::InputFloat(" Z scale", &sz, 1.00f, 20.0f);
 		ImGui::SliderFloat("locked scale value ", &scaler, 0.0f, 20.0f);
-
+		ImGui::SameLine();
+		ImGui::InputFloat(" X&Y scale", &scaler, 1.00f, 20.0f);
 		if(ImGui::Button("resize to original X"))
 			sx = 1.0f;
 		if (ImGui::Button("resize to original Y"))
