@@ -183,10 +183,11 @@ void MeshModel::createTransformation()
 													   { 0, 0, 0, 1 }));
 
 	
-	if(setWorldTransform)
-		worldTransform = (scale * rot * translate) ;
+	if (setWorldTransform) {
+		worldTransform = (scale * rot * translate * objTransform);
+	}
 	else
-		objTransform = glm::inverse(scale * rot * translate) ;			
+		objTransform = glm::inverse(glm::inverse(scale) * rot * translate) ;			
 }
 
 const vector<glm::vec4>* MeshModel::Draw()

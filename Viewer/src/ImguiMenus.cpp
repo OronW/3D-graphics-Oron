@@ -103,8 +103,8 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::Checkbox("rotatingX", &rotateX); 
 		ImGui::Checkbox("rotatingY", &rotateY); 
 		ImGui::Checkbox("rotatingZ", &rotateZ); 
-		ImGui::SliderFloat("rotate by X", &theta_x, -10.0f, 10.0f);
-		ImGui::SliderFloat("rotate by Y", &theta_y, -10.0f, 10.0f);
+		ImGui::SliderFloat("rotate by X", &theta_x, theta_x-1.0f, theta_x+1.0f);
+		ImGui::SliderFloat("rotate by Y", &theta_y, theta_y-1.0f, theta_y+1.0f);
 		ImGui::SliderFloat("rotate by Z", &theta_z, -10.0f, 10.0f);
 		if (ImGui::Button("Close Me"))
 			rotatebytheta = false;
