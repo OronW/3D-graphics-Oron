@@ -176,16 +176,17 @@ void MeshModel::createTransformation()
 							    	sin(theta_z), cos(theta_z), 0, 0,
 									0,				 0,			1, 0,
 									0,				 0,			0, 1);
-	glm::mat4x4 rot = rotZ * rotY*rotX;
-	glm::mat4x4 translate = glm::transpose(glm::mat4x4({ 1, 0 ,0, tx },
-													   { 0, 1, 0, ty },
-													   { 0, 0, 1, tz },
+	glm::mat4x4 rot = rotZ * rotY * rotX;
+	glm::mat4x4 translate = glm::transpose(glm::mat4x4({ 1, 0 ,0, -tx },
+													   { 0, 1, 0, -ty },
+													   { 0, 0, 1, -tz },
 													   { 0, 0, 0, 1 }));
+
 	
 	if(setWorldTransform)
-		worldTransform = scale * rot*translate;			
+		worldTransform = (scale * rot * translate) ;
 	else
-		objTransform = scale * rot*translate;			
+		objTransform = glm::inverse(scale * rot * translate) ;			
 }
 
 const vector<glm::vec4>* MeshModel::Draw()
@@ -195,7 +196,7 @@ const vector<glm::vec4>* MeshModel::Draw()
 	{
 		auto p = (*vertexPositions)[i];
 		auto q = glm::vec4(p.x, p.y, p.z, 1);
-		(*vertexPositions_transformed)[i] = worldTransform * objTransform*q;
+		(*vertexPositions_transformed)[i] = (worldTransform * objTransform * q);
 	}
 	return vertexPositions_transformed;
 }
