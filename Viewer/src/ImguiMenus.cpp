@@ -56,8 +56,7 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::Checkbox("Scaling", &scaling);
 		ImGui::Checkbox("rotating", &rotatebytheta);
 		ImGui::Checkbox("Translating", &translating);
-		if (ImGui::Button("SetWorldTransform"))
-			setWorldTransform = true;
+		ImGui::Checkbox("SetWorldTransform", &setWorldTransform);
 
 		ImGui::End();
 
@@ -66,7 +65,7 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 	if (translating)
 	{
 		ImGui::Begin("Translating");
-		ImGui::SliderFloat("x translate value ", &tx, -1.0f, 1.0f);
+		ImGui::SliderFloat("x translate value ", &tx, -0.5f, 0.5f);
 		ImGui::SliderFloat("y translate value ", &ty, -1.0f, 1.0f);
 		ImGui::SliderFloat("z translate value ", &tz, -1.0f, 1.0f);
 		if (ImGui::Button("Close Me"))
@@ -84,8 +83,14 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 
 		if(ImGui::Button("resize to original X"))
 			sx = 1.0f;
-		ImGui::Checkbox("resize to original Y", &sy_original);
-		ImGui::Checkbox("resize to original X & Y", &sxy_original);
+		if (ImGui::Button("resize to original Y"))
+			sy = 1.0f;
+		if (ImGui::Button("resize to original X&Y"))
+		{
+			scaler = 1;
+			sx = 1.0f;
+			sy = 1.0f;
+		}
 		if (ImGui::Button("Close Me"))
 			scaling = false;
 		ImGui::End();
@@ -105,19 +110,7 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 			rotatebytheta = false;
 		ImGui::End();
 	}
-	if (sx_original)
-	{
-		sx = 1.0f;
-	}
-	if (sy_original)
-	{
-		sy = 1.0f;
-	}
-	if (sxy_original)
-	{
-		sx = 1.0f;
-		sy = 1.0f;
-	}
+	
 	// 2. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.
 	if (showAnotherWindow)
 	{
