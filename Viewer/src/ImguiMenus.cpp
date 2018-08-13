@@ -78,26 +78,31 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::Begin("scaling");
 		ImGui::SliderFloat("x scale value ", &sx, sx + 0.5f, sx -0.5f);
 		ImGui::SameLine();
-		ImGui::InputFloat(" X scale", &sx, 1.00f, 20.0f);
+		ImGui::InputFloat(" X scale", &sx, 1.00f, 20.0f); 
+		
 		ImGui::SliderFloat("y scale value ", &sy, sy + 0.5f, sy - 0.5f);
 		ImGui::SameLine();
 		ImGui::InputFloat(" Y scale", &sy, 1.00f, 20.0f);
+		
 		ImGui::SliderFloat("z scale value ", &sz, sz + 0.5f, sz - 0.5f);
 		ImGui::SameLine();
 		ImGui::InputFloat(" Z scale", &sz, 1.00f, 20.0f);
-		ImGui::SliderFloat("locked scale value ", &scaler, 0.0f, 20.0f);
+		
+		ImGui::SliderFloat("locked scale value ", &scaler, scaler + 0.5f, scaler - 0.5f);
 		ImGui::SameLine();
-		ImGui::InputFloat(" X&Y scale", &scaler, 1.00f, 20.0f);
-		if(ImGui::Button("resize to original X"))
+		ImGui::InputFloat(" X&Y scale", &sy, 1.00f, 20.0f);
+				
+		if (ImGui::Button("ResetX"))
 			sx = 1.0f;
-		if (ImGui::Button("resize to original Y"))
+		ImGui::SameLine();
+		if (ImGui::Button("ResetY"))
 			sy = 1.0f;
-		if (ImGui::Button("resize to original X&Y"))
-		{
-			scaler = 1;
-			sx = 1.0f;
-			sy = 1.0f;
-		}
+		ImGui::SameLine();
+		if (ImGui::Button("ResetZ"))
+			sz = 1.0f;
+		ImGui::SameLine();
+		if (ImGui::Button("ResetX&Y"))
+			scaler = 1.0f;
 		if (ImGui::Button("Close Me"))
 			scaling = false;
 		ImGui::End();
@@ -107,20 +112,17 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 	if (rotatebytheta)
 	{
 		ImGui::Begin("Rotating");
-		ImGui::Checkbox("rotatingX", &rotateX); 
-		ImGui::Checkbox("rotatingY", &rotateY); 
-		ImGui::Checkbox("rotatingZ", &rotateZ); 
 		ImGui::SliderFloat("rotate by X", &theta_x, theta_x-0.5f, theta_x+0.5f);
 		ImGui::SameLine();
-		if (ImGui::Button("ResetX"))
+		if (ImGui::Button("Reset X"))
 			theta_x = 0.0f;
 		ImGui::SliderFloat("rotate by Y", &theta_y, theta_y-0.5f, theta_y+0.5f);
 		ImGui::SameLine();
-		if (ImGui::Button("ResetY"))
+		if (ImGui::Button("Reset Y"))
 			theta_y = 0.0f;
 		ImGui::SliderFloat("rotate by Z", &theta_z, theta_z - 0.5f, theta_z + 0.5f);
 		ImGui::SameLine();
-		if (ImGui::Button("ResetZ"))
+		if (ImGui::Button("Reset Z"))
 			theta_z = 0.0f;
 		if (ImGui::Button("Close Me"))
 			rotatebytheta = false;
