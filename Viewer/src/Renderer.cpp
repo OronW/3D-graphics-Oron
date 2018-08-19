@@ -74,14 +74,33 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		upperRight.x = mostright; upperRight.y = mostupper; upperRight.z= 0;
 
 		int ml = ((mostleft + 1) * width / 2);
-		int mr = ((mostupper + 1) * height / 2);
-		int mu = ((mostright + 1) * width / 2);
+		int mu = ((mostupper + 1) * height / 2);
+		int mr = ((mostright + 1) * width / 2);
 		int mb = ((mostbottom + 1) * height / 2);
+
+		int Ax = ((pointA.x + 1) * width / 2);
+		int Ay = ((pointA.y + 1) * height / 2);
+		int Bx = ((pointB.x + 1) * width / 2);
+		int By = ((pointB.y + 1) * height / 2);
+		int Cx = ((pointC.y + 1) * height / 2);
+		int Cy = ((pointC.y + 1) * height / 2);
 
 		glm::vec4 magenta = glm::vec4(1, 0, 1, 1);
 
-		drawLine(glm::vec3(mostright,mostupper, 0), glm::vec3(mostleft, mostupper, 0));
+		//drawLine(glm::vec3(mostright,mostupper, 0), glm::vec3(mostleft, mostupper, 0));
+		int L1, L2, L3;
+		for (int y = mb; y < mu; y++)				//y value
+			for (int x = ml; x < mr; x++)			//x value
+			{
+				L1 = ((By - Cy)*(x - Cx) + (Cx - Bx)*(y - Cy)) /
+					((By - Cy)*(Ax - Cx) + (Cx - Bx)*(Ay - Cy));
 
+				L2 = ((Cy - Ay)*(x - Cx) + (Ax - Cx)*(y - Cy)) /
+					((By - Cy)*(Ax - Cx) + (Cx - Bx)*(Ay - Cy));
+				L3 = 1 - L1 - L2;
+				if ((L1 >= 0 && L1 <= 1) && (L2 >= 0 && L2 <= 1) && (L3 >= 0 && L3 <= 1))
+					putPixel(x, y, glm::vec3(0, 1, 0));
+			}
 	
 	}
 }
