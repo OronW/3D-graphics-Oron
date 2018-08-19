@@ -49,6 +49,40 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		drawLine(pointA, pointB);		// draw the 3 lines
 		drawLine(pointB, pointC);
 		drawLine(pointC, pointA);
+
+		glm::vec3 bottomLeft, upperRight;
+		float mostleft=pointA.x, mostright=pointA.x, mostbottom=pointA.y, mostupper=pointA.y;
+		//mostleft
+		mostleft = ((pointA.x < pointB.x) ? pointA.x : pointB.x);
+		mostleft = ((mostleft < pointC.x) ? mostleft : pointC.x);
+
+
+		//mostright
+		mostright = ((pointA.x > pointB.x) ? pointA.x : pointB.x);
+		mostright = (mostright > pointC.x) ? mostright : pointC.x;
+		
+		//mostbottom
+		mostbottom = ((pointA.y < pointB.y) ? pointA.y : pointB.y);
+		mostbottom = (mostbottom < pointC.y) ? mostbottom : pointC.y;
+		
+		//mostupper
+		mostupper = ((pointA.y > pointB.y) ? pointA.y : pointB.y);
+		mostupper = ((mostupper > pointC.y) ? mostupper : pointC.y);
+
+		//setting the rictangle dots
+		bottomLeft.x = mostleft; bottomLeft.y = mostbottom; bottomLeft.z = 0;
+		upperRight.x = mostright; upperRight.y = mostupper; upperRight.z= 0;
+
+		int ml = ((mostleft + 1) * width / 2);
+		int mr = ((mostupper + 1) * height / 2);
+		int mu = ((mostright + 1) * width / 2);
+		int mb = ((mostbottom + 1) * height / 2);
+
+		glm::vec4 magenta = glm::vec4(1, 0, 1, 1);
+
+		drawLine(glm::vec3(mostright,mostupper, 0), glm::vec3(mostleft, mostupper, 0));
+
+	
 	}
 }
 
@@ -89,6 +123,8 @@ void Renderer::SetDemoBuffer()
 	}
 	
 	drawLine(glm::vec3(0, 0, 0), glm::vec3(width, height, 0));
+
+
 	
 	// Wide magenta horizontal line
 	glm::vec4 magenta = glm::vec4(1, 0, 1, 1);
@@ -208,6 +244,9 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 		e = e + (2 * (deltaY)*sign_y);
 	}
 }
+
+
+
 
 void Renderer::SetBuffer()
 {
