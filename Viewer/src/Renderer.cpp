@@ -83,21 +83,24 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		int Ay = ((pointA.y + 1) * height / 2);
 		int Bx = ((pointB.x + 1) * width / 2);
 		int By = ((pointB.y + 1) * height / 2);
-		int Cx = ((pointC.y + 1) * height / 2);
+		int Cx = ((pointC.x + 1) * width/ 2);
 		int Cy = ((pointC.y + 1) * height / 2);
 
 		glm::vec4 magenta = glm::vec4(1, 0, 1, 1);
 
 		//drawLine(glm::vec3(mostright,mostupper, 0), glm::vec3(mostleft, mostupper, 0));
-		int L1, L2, L3;
+		float L1, L2, L3, det;
+		det = (By - Cy)*(Ax - Cx) + (Cx - Bx)*(Ay - Cy);
+		
 		for (int y = mb; y < mu; y++)				//y value
 			for (int x = ml; x < mr; x++)			//x value
 			{
-				L1 = ((By - Cy)*(x - Cx) + (Cx - Bx)*(y - Cy)) /
-					((By - Cy)*(Ax - Cx) + (Cx - Bx)*(Ay - Cy));
+				L1 = (By - Cy)*(x - Cx) + (Cx - Bx)*(y - Cy);
+				L1 /= det;
 
-				L2 = ((Cy - Ay)*(x - Cx) + (Ax - Cx)*(y - Cy)) /
-					((By - Cy)*(Ax - Cx) + (Cx - Bx)*(Ay - Cy));
+				L2 = (Cy - Ay)*(x - Cx) + (Ax - Cx)*(y - Cy);
+				L2 /= det;
+
 				L3 = 1 - L1 - L2;
 				if ((L1 >= 0 && L1 <= 1) && (L2 >= 0 && L2 <= 1) && (L3 >= 0 && L3 <= 1))
 					putPixel(x, y, glm::vec3(0, 1, 0));
@@ -166,6 +169,8 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 	auto swap = [](int &a, int &b) {int temp = a; a = b; b = temp; };
 
 	glm::vec3 white = glm::vec3(1, 1, 1);
+	glm::vec3 black = glm::vec3(0, 0, 0);
+
 	int x1 = ((p1.x + 1) * width / 2);
 	int y1 = ((p1.y + 1) * height / 2);
 	int x2 = ((p2.x + 1) * width / 2);
@@ -231,10 +236,10 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 		}
 
 		if (!swapflag) {
-			putPixel(x1 + x_correct, (sign_y*y1) + y_correct, white);
+			putPixel(x1 + x_correct, (sign_y*y1) + y_correct, black);
 		}
 		else{
-			putPixel(y1+x_correct, (sign_y*x1 + y_correct), white);
+			putPixel(y1+x_correct, (sign_y*x1 + y_correct), black);
 			if (deltaY > deltaX)
 				sign_y = 1;
 		}
@@ -253,10 +258,10 @@ void Renderer::drawLine(const glm::vec3 &p1, const glm::vec3 &p2)
 		}
 
 		if (!swapflag) {
-			putPixel(x1 + x_correct, (sign_y*y1) + y_correct, white);
+			putPixel(x1 + x_correct, (sign_y*y1) + y_correct, black);
 		}
 		else {
-			putPixel(y1 + x_correct, (-sign_y*x1 + y_correct), white);
+			putPixel(y1 + x_correct, (-sign_y*x1 + y_correct), black);
 			if (deltaY > deltaX)
 				sign_y = 1;
 		}
