@@ -6,6 +6,7 @@
 #include "MeshModel.h"
 
 #define INDEX(width,x,y,c) ((x)+(y)*(width))*3+(c)
+extern glm::vec3 ObjColor; // = glm::vec4(1.0f, 0.0f, 1.0f, 1.00f);
 extern bool rotateX, rotateY, rotateZ;
 extern float sx;
 extern float sy, sz;
@@ -103,7 +104,7 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 
 				L3 = 1 - L1 - L2;
 				if ((L1 >= 0 && L1 <= 1) && (L2 >= 0 && L2 <= 1) && (L3 >= 0 && L3 <= 1))
-					putPixel(x, y, glm::vec3(0, 1, 0));
+					putPixel(x, y, ObjColor);
 			}
 
 	

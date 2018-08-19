@@ -22,6 +22,7 @@ bool showDemoWindow = false;
 bool showAnotherWindow = false;
 bool showFile = false;
 glm::vec4 clearColor = glm::vec4(0.4f, 0.55f, 0.60f, 1.00f);
+glm::vec3 ObjColor = glm::vec3(1.0f, 0.0f, 1.0f);
 
 const glm::vec4& GetClearColor()
 {
@@ -40,7 +41,7 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::Text("Hello, world!");                           // Display some text (you can use a format string too)
 		ImGui::SliderFloat("float", &sx, 0.0f, 3.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
 		ImGui::ColorEdit3("clear color", (float*)&clearColor); // Edit 3 floats representing a color
-
+		
 		ImGui::Checkbox("Demo Window", &showDemoWindow);      // Edit bools storing our windows open/close state
 		ImGui::Checkbox("Another Window", &showAnotherWindow);
 
@@ -57,7 +58,7 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::Checkbox("rotating", &rotatebytheta);
 		ImGui::Checkbox("Translating", &translating);
 		ImGui::Checkbox("SetWorldTransform", &setWorldTransform);
-
+		ImGui::ColorEdit3("OBJ color", (float*)&ObjColor);
 		ImGui::End();
 
 	}
