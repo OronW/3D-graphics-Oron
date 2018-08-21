@@ -21,7 +21,7 @@ private:
 	float *zBuffer;
 	// Screen dimensions
 	int width, height;
-
+	float getZ(const glm::vec3 &p1, const glm::vec3 &p2, const glm::vec3 &p3, int x, int y);
 	// Draw's a pixel in location p with color color
 	void putPixel(int i, int j, const glm::vec3& color);
 	// creates float array of dimension [3,w,h]

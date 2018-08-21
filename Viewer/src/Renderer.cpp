@@ -38,6 +38,15 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 {
 	int size = vertices->size();	// get size of array
 	//std::cout << "size is: " << size << std::endl;
+	
+	
+	float** Zdepth = new float*[720];
+	for (int i = 0; i < 720; ++i)
+		Zdepth[i] = new float[1280];
+	for (int u = 0; u<720; u++)
+		for (int o = 0; o<1280; o++)
+			Zdepth[u][o] = 1000000;
+	
 
 	for (int i = 0; i < size/3; i++)				// draw triangles of 3 verticies at a time
 	{
@@ -86,10 +95,9 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		int By = ((pointB.y + 1) * height / 2);
 		int Cx = ((pointC.x + 1) * width/ 2);
 		int Cy = ((pointC.y + 1) * height / 2);
-
+		float myZ;
 		glm::vec4 magenta = glm::vec4(1, 0, 1, 1);
 
-		//drawLine(glm::vec3(mostright,mostupper, 0), glm::vec3(mostleft, mostupper, 0));
 		float L1, L2, L3, det;
 		det = (By - Cy)*(Ax - Cx) + (Cx - Bx)*(Ay - Cy);
 		
@@ -104,11 +112,39 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 
 				L3 = 1 - L1 - L2;
 				if ((L1 >= 0 && L1 <= 1) && (L2 >= 0 && L2 <= 1) && (L3 >= 0 && L3 <= 1))
+				{
+					
 					putPixel(x, y, ObjColor);
+					myZ = L1 * pointA.z + L2 * pointB.z + L3 * pointC.z;
+					
+					if (myZ < Zdepth[y][x])
+					  {
+						putPixel(x, y, glm::vec3(0,1,0));
+					  	Zdepth[y][x] = myZ;
+					  }
+					 
+				}
 			}
 
-	
 	}
+}
+
+
+
+float Renderer::getZ(const glm::vec3 & p1, const glm::vec3 & p2, const glm::vec3 & p3, int x, int y)
+{
+	glm::vec3 v1, v2, n;
+	float k, t, z;
+
+	v1 = p1 - p2;
+	v2 = p1 - p3;
+	n.x = v1.y*v2.z - v1.z*v2.y;
+	n.y = -(v1.x*v2.z - v1.z*v2.x);
+	n.z = v1.x*v2.y - v1.y*v2.x;
+	k = n.x*p1.x + n.y*p1.y + n.z*p1.z;
+	t = 1 / n.z;
+	z = t * (k - n.x*x - n.y*y);
+	return z;
 }
 
 void Renderer::putPixel(int i, int j, const glm::vec3& color)
