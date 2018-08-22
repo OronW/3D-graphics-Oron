@@ -40,12 +40,12 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 	//std::cout << "size is: " << size << std::endl;
 	
 	
-	float** Zdepth = new float*[720];
-	for (int i = 0; i < 720; ++i)
-		Zdepth[i] = new float[1280];
-	for (int u = 0; u<720; u++)
-		for (int o = 0; o<1280; o++)
-			Zdepth[u][o] = 1000000;
+	//float** Zdepth = new float*[4000];
+	//for (int i = 0; i < 720; ++i)
+	//	Zdepth[i] = new float[4000];
+	//for (int u = 0; u<720; u++)
+	//	for (int o = 0; o<1280; o++)
+	//		Zdepth[u][o] = 1000000;
 	
 
 	for (int i = 0; i < size/3; i++)				// draw triangles of 3 verticies at a time
@@ -59,6 +59,34 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		drawLine(pointA, pointB);		// draw the 3 lines
 		drawLine(pointB, pointC);
 		drawLine(pointC, pointA);
+
+		
+			glm::vec3 V1 = (pointA - pointB);
+			glm::vec3 V2 = (pointB - pointC);
+			glm::vec3 surfaceNormal;
+			surfaceNormal.x =    (V1.y * V2.z)  - (V1.z * V2.y);
+			surfaceNormal.y =  ((V1.z * V2.x)  - (V1.x * V2.z));
+			surfaceNormal.z =    (V1.x * V2.y)  - (V1.y * V2.x);
+
+			//surfaceNormal.x =    ((pointB.y - pointA.y)*(pointC.z- pointA.z)) - ((pointC.y - pointA.y)*(pointB.z - pointA.z));
+			//surfaceNormal.y = ((pointB.z - pointA.z)*(pointC.x - pointA.x)) - ((pointB.x - pointA.x)*(pointC.z - pointA.z));
+			//surfaceNormal.z = ((pointB.x - pointA.x)*(pointC.y - pointA.y)) - ((pointC.x - pointA.x)*(pointB.y - pointA.y));
+
+			glm::vec3 center;
+
+			center.x = ((pointA.x + pointB.x + pointC.x) / 3);
+			center.y = (pointA.y + pointB.y + pointC.y) / 3;
+			center.z = (pointA.z + pointB.z + pointC.z) / 3;
+
+			float normX = abs(surfaceNormal.x);
+			float normY = abs(surfaceNormal.y);
+			float normZ = abs(surfaceNormal.z);
+
+
+			drawLine(center, surfaceNormal/(sqrt(normX*normX + normY* normY + normZ* normZ)*2));
+			// should we normalize??		
+
+
 
 		glm::vec3 bottomLeft, upperRight;
 		float mostleft=pointA.x, mostright=pointA.x, mostbottom=pointA.y, mostupper=pointA.y;
@@ -114,14 +142,14 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 				if ((L1 >= 0 && L1 <= 1) && (L2 >= 0 && L2 <= 1) && (L3 >= 0 && L3 <= 1))
 				{
 					
-					putPixel(x, y, ObjColor);
+				//	putPixel(x, y, ObjColor);
 					myZ = L1 * pointA.z + L2 * pointB.z + L3 * pointC.z;
 					
-					if (myZ < Zdepth[y][x])
+				/*	if (myZ < Zdepth[y][x])
 					  {
 						putPixel(x, y, glm::vec3(0,1,0));
 					  	Zdepth[y][x] = myZ;
-					  }
+					  }*/
 					 
 				}
 			}
@@ -131,21 +159,6 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 
 
 
-float Renderer::getZ(const glm::vec3 & p1, const glm::vec3 & p2, const glm::vec3 & p3, int x, int y)
-{
-	glm::vec3 v1, v2, n;
-	float k, t, z;
-
-	v1 = p1 - p2;
-	v2 = p1 - p3;
-	n.x = v1.y*v2.z - v1.z*v2.y;
-	n.y = -(v1.x*v2.z - v1.z*v2.x);
-	n.z = v1.x*v2.y - v1.y*v2.x;
-	k = n.x*p1.x + n.y*p1.y + n.z*p1.z;
-	t = 1 / n.z;
-	z = t * (k - n.x*x - n.y*y);
-	return z;
-}
 
 void Renderer::putPixel(int i, int j, const glm::vec3& color)
 {
