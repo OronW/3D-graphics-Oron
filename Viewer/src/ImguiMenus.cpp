@@ -113,7 +113,6 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 	if (rotatebytheta)
 	{
 		ImGui::Begin("Rotating");
-<<<<<<< HEAD
 		ImGui::SliderFloat("rotate by X", &theta_x, theta_x-0.5f, theta_x+0.5f);
 		ImGui::SameLine();
 		if (ImGui::Button("Reset X"))
@@ -126,14 +125,6 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::SameLine();
 		if (ImGui::Button("Reset Z"))
 			theta_z = 0.0f;
-=======
-		ImGui::Checkbox("rotatingX", &rotateX); 
-		ImGui::Checkbox("rotatingY", &rotateY); 
-		ImGui::Checkbox("rotatingZ", &rotateZ); 
-		ImGui::SliderFloat("rotate by X", &theta_x, -10.0f, 10.0f);
-		ImGui::SliderFloat("rotate by Y", &theta_y, -10.0f, 10.0f);
-		ImGui::SliderFloat("rotate by Z", &theta_z, -10.0f, 10.0f);
->>>>>>> parent of 084d325... world+obj rotation works
 		if (ImGui::Button("Close Me"))
 			rotatebytheta = false;
 		ImGui::End();

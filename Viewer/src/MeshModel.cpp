@@ -183,14 +183,11 @@ void MeshModel::createTransformation()
 													   { 0, 0, 0, 1 }));
 
 	
-	if(setWorldTransform)
-		worldTransform = (scale * rot * translate) ;
+	if (setWorldTransform) {
+		worldTransform = (scale * rot * translate * objTransform);
+	}
 	else
-<<<<<<< HEAD
 		objTransform = glm::inverse(scale * rot * translate)*worldTransform ;			
-=======
-		objTransform = glm::inverse(scale * rot * translate) ;			
->>>>>>> parent of 084d325... world+obj rotation works
 }
 
 const vector<glm::vec4>* MeshModel::Draw()
