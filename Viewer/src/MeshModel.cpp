@@ -195,15 +195,6 @@ const vector<glm::vec4>* MeshModel::Draw()
 	//Returns the points to draw the meshmodel
 	for (int i = 0; i < vertexPositions->size(); i++)
 	{
-
-		float n = 1, f = 50, l = 0, r = 1, t = 1, b = 0;
-
-		glm::mat4x4 pers = glm::mat4x4(((2 * n) / (r - l)), 0, ((r + l) / (r - l)), 0,
-			0, ((2 * n) / (t - b)), ((t + b) / (t - b)), 0,
-			0, 0, -((f + n) / (f - n)), -((2 * f*n) / (f - n)),
-			0, 0, -1, 0);
-
-
 		auto p = (*vertexPositions)[i];
 		auto q = glm::vec4(p.x, p.y, p.z, 1);
 		(*vertexPositions_transformed)[i] = (worldTransform * objTransform * q);
