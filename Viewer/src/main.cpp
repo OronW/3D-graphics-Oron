@@ -35,6 +35,8 @@ int main(int argc, char **argv)
 {
     // Setup window
 	int w = 1280, h = 720;
+
+	
 	GLFWwindow* window = SetupGlfwWindow(w,h,"Mesh Viewer");
 	if (!window)
 		return 1;
@@ -45,7 +47,7 @@ int main(int argc, char **argv)
 	ImGuiIO& io = SetupDearImgui(window);
     // Main loop - the famous "Game Loop" in video games :)
 
-	scene.LoadOBJModel("C:\\Users\\galsh\\Desktop\\graphics\\obj_examples\\Bunny.obj");
+	scene.LoadOBJModel("C:\\Users\\oron\\Downloads\\objex\\bunny.obj");
 
 	
     while (!glfwWindowShouldClose(window))

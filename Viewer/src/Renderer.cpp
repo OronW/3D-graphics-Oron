@@ -39,8 +39,8 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 	int size = vertices->size();	// get size of array
 	//std::cout << "size is: " << size << std::endl;
 	
-	float *Zdepth = new float[width*height];
-	for (int i = width * height; i--; Zdepth[i] = -std::numeric_limits<float>::max());
+	//float *Zdepth = new float[width*height];
+	//for (int i = width * height; i--; Zdepth[i] = -std::numeric_limits<float>::max());
 
 	
 
@@ -71,8 +71,8 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		glm::vec3 center;
 
 		center.x = ((pointA.x + pointB.x + pointC.x) / 3);
-		center.y = (pointA.y + pointB.y + pointC.y) / 3;
-		center.z = (pointA.z + pointB.z + pointC.z) / 3;
+		center.y = ((pointA.y + pointB.y + pointC.y) / 3);
+		center.z = ((pointA.z + pointB.z + pointC.z) / 3);
 
 		float normX = abs(surfaceNormal.x);
 		float normY = abs(surfaceNormal.y);
@@ -87,8 +87,9 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 
 
 		if(showNormals)
-		drawLine(center, normalResult);
+		drawLine(center, (normalResult*0.3f+center));
 		// should we normalize??
+
 
 
 
@@ -147,13 +148,13 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 				{
 					
 					//putPixel(x, y, ObjColor);
-					myZ = L1 * pointA.z + L2 * pointB.z + L3 * pointC.z;
+					//myZ = L1 * pointA.z + L2 * pointB.z + L3 * pointC.z;
 					
-					if (myZ > Zdepth[x+y*width])
+					/*if (myZ > Zdepth[x+y*width])
 					  {
 						putPixel(x, y, glm::vec3(0,1,0));
 					  	Zdepth[x+y*width] = myZ;
-					  }
+					  }*/
 					 
 				}
 			}
@@ -466,28 +467,3 @@ void Renderer::Viewport(int w, int h)
 	colorBuffer = new float[3 * h*w];
 	createOpenGLBuffer();
 }
-
-// ----------------------------------------------- our added code
-
-// Implement primitive triangle
-//void Renderer::PrimMeshModel(glm::vec3 *vertexPosition)
-//{
-//	int i = 0;
-//	//int size = vertexPosition->length;	// get size of array
-//
-//	while (i < 21)				// draw triangles of 3 verticies at a time
-//	{
-//		glm::vec3 pointA = vertexPosition[0];		// get first point
-//		glm::vec3 pointB = vertexPosition[1];		// get second point
-//		glm::vec3 pointC = vertexPosition[2];		// get third point
-//
-//		// draw 3 lines
-//		drawLine(pointA, pointB);		// draw the 3 lines
-//		drawLine(pointB, pointC);
-//		drawLine(pointC, pointA);
-//	}
-
-
-
-
-
