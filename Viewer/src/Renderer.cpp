@@ -42,7 +42,7 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 	float *Zdepth = new float[width*height];
 	for (int i = width * height; i--; Zdepth[i] = std::numeric_limits<float>::max());
 
-	
+
 
 	for (int i = 0; i < size/3; i++)				// draw triangles of 3 verticies at a time
 	{
@@ -50,7 +50,10 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		glm::vec3 pointB = (*vertices)[3*i+1];	// get second point
 		glm::vec3 pointC = (*vertices)[3*i+2];	// get third point
 		
-		
+		pointA.x *= (float)height / width;	// correct the ratio according to window change
+		pointB.x *= (float)height / width;
+		pointC.x *= (float)height / width;
+
 		// draw 3 lines
 		drawLine(pointA, pointB);		// draw the 3 lines
 		drawLine(pointB, pointC);
@@ -62,6 +65,8 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		glm::vec3 surfaceNormal;
 		
 		surfaceNormal = glm::normalize(glm::cross(V1, V2));
+
+	
 
 
 		//surfaceNormal.x = (V1.y * V2.z) - (V1.z * V2.y);
@@ -78,16 +83,16 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		center.y = ((pointA.y + pointB.y + pointC.y) / 3);
 		center.z = ((pointA.z + pointB.z + pointC.z) / 3);		// can we do as 1 line for center?
 
-		float normX = abs(surfaceNormal.x);
-		float normY = abs(surfaceNormal.y);
-		float normZ = abs(surfaceNormal.z);
-
-		glm::vec3 normalResult = surfaceNormal / (sqrt(normX*normX + normY * normY + normZ * normZ));
-		glm::vec3 normSubtract = normalResult - center;
-		float normSize = (sqrt(normSubtract.x*normSubtract.x + normSubtract.y*normSubtract.y + normSubtract.z*normSubtract.z));
-
-		glm::vec3 B = normalResult;
-		B *= 1 - (1.1 / normSize);
+		//float normX = abs(surfaceNormal.x);
+		//float normY = abs(surfaceNormal.y);
+		//float normZ = abs(surfaceNormal.z);
+		//
+		//glm::vec3 normalResult = surfaceNormal / (sqrt(normX*normX + normY * normY + normZ * normZ));
+		//glm::vec3 normSubtract = normalResult - center;
+		//float normSize = (sqrt(normSubtract.x*normSubtract.x + normSubtract.y*normSubtract.y + normSubtract.z*normSubtract.z));
+		//
+		//glm::vec3 B = normalResult;
+		//B *= 1 - (1.1 / normSize);
 
 
 		if (showNormals) 
@@ -99,7 +104,7 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 
 		// should we normalize??
 
-
+	
 
 
 		glm::vec3 bottomLeft, upperRight;
@@ -156,12 +161,13 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 				if ((L1 >= 0 && L1 <= 1) && (L2 >= 0 && L2 <= 1) && (L3 >= 0 && L3 <= 1))
 				{
 					
-					putPixel(x, y, ObjColor);
+					//putPixel(x, y, ObjColor);
 					myZ = L1 * pointA.z + L2 * pointB.z + L3 * pointC.z;
 					
-					if ((myZ < Zdepth[x+y*width]) && (x+y*width < width*height))
+					if ((x + (y*width) >= 0) && ((x+(y*width)) < width*height) && (myZ < Zdepth[x + (y*width)]))
 					  {
-						putPixel(x, y, glm::vec3(0,1,0));
+						
+						putPixel(x, y, ObjColor);
 					  	Zdepth[x+y*width] = myZ;
 					  }
 					 
