@@ -7,10 +7,12 @@
 #include "Scene.h"
 bool setWorldTransform = false, showNormals = false;
 bool rotateX = false, rotateY = false, rotateZ = false;
-bool rotatebytheta = false, translating = false;
+bool rotatebytheta = false, translating = false, lightPosition = false;
 float theta_x =0.0f, theta_y=0.0f, theta_z = 0.0f;
 float sx = 1.0f, sy = 1.0f, sz = 1.0f, scaler = 1.0f;
+float lx = 0.0f, ly = 0.0f, lz = 0.0f;
 float tx = 0, ty = 0,  tz=0;
+
 bool sx_original = false, sy_original = false, sxy_original = false, scaling = false;
 
 bool showDemoWindow = false;
@@ -51,7 +53,8 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::Begin("Our New Menu");
 		ImGui::Checkbox("Scaling", &scaling);
 		ImGui::Checkbox("rotating", &rotatebytheta);
-		ImGui::Checkbox("Translating", &translating);
+		ImGui::Checkbox("Translating", &translating); 
+		ImGui::Checkbox("Light Position", &lightPosition);
 		ImGui::Checkbox("SetWorldTransform", &setWorldTransform);
 		ImGui::Checkbox("Show normals", &showNormals);
 		ImGui::ColorEdit3("OBJ color", (float*)&ObjColor);
@@ -69,6 +72,16 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 			translating = false;
 		ImGui::End();
 	}
+
+	if (lightPosition)
+	{
+		ImGui::Begin("lightPosition");
+		ImGui::SliderFloat("x light position value ", &lx, lx - 0.1f, lx + 0.1f);
+		if (ImGui::Button("Close Me"))
+			lightPosition = false;
+		ImGui::End();
+	}
+
 	if (scaling)
 	{
 		

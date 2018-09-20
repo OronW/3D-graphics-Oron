@@ -17,6 +17,9 @@ extern bool translating;
 extern float tx;
 extern float ty;
 extern float tz;
+
+extern float lx;
+
 Renderer::Renderer() : width(1280), height(720)
 {
 	initOpenGLRendering();
@@ -42,6 +45,8 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 	float *Zdepth = new float[width*height];
 	for (int i = width * height; i--; Zdepth[i] = std::numeric_limits<float>::max());
 
+	
+	glm::vec3 lightDir = glm::normalize(glm::vec3(0-lx, 0, 1));		// set a light point behind the camera
 
 
 	for (int i = 0; i < size/3; i++)				// draw triangles of 3 verticies at a time
@@ -166,8 +171,8 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 					
 					if ((x + (y*width) >= 0) && ((x+(y*width)) < width*height) && (myZ < Zdepth[x + (y*width)]))
 					  {
-						
-						putPixel(x, y, ObjColor);
+						float intensity = glm::dot(lightDir, surfaceNormal);
+						putPixel(x, y, intensity*ObjColor);
 					  	Zdepth[x+y*width] = myZ;
 					  }
 					 
