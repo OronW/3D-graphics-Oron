@@ -77,6 +77,8 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 	{
 		ImGui::Begin("lightPosition");
 		ImGui::SliderFloat("x light position value ", &lx, lx - 0.1f, lx + 0.1f);
+		ImGui::SliderFloat("y light position value ", &ly, ly - 0.1f, ly + 0.1f);
+		ImGui::SliderFloat("z light position value ", &lz, lz - 0.1f, lz + 0.1f);
 		if (ImGui::Button("Close Me"))
 			lightPosition = false;
 		ImGui::End();

@@ -18,7 +18,7 @@ extern float tx;
 extern float ty;
 extern float tz;
 
-extern float lx;
+extern float lx, ly, lz;
 
 Renderer::Renderer() : width(1280), height(720)
 {
@@ -46,7 +46,7 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 	for (int i = width * height; i--; Zdepth[i] = std::numeric_limits<float>::max());
 
 	
-	glm::vec3 lightDir = glm::normalize(glm::vec3(0-lx, 0, 1));		// set a light point behind the camera
+	glm::vec3 lightDir = glm::normalize(glm::vec3(0+lx, 0+ly, -1+lz));		// set a light point behind the camera
 
 
 	for (int i = 0; i < size/3; i++)				// draw triangles of 3 verticies at a time
@@ -60,16 +60,16 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		pointC.x *= (float)height / width;
 
 		// draw 3 lines
-		drawLine(pointA, pointB);		// draw the 3 lines
-		drawLine(pointB, pointC);
-		drawLine(pointC, pointA);
+		//drawLine(pointA, pointB);		// draw the 3 lines
+		//drawLine(pointB, pointC);
+		//drawLine(pointC, pointA);
 
 
 		glm::vec3 V1 = (pointA - pointB);
 		glm::vec3 V2 = (pointC - pointB);
 		glm::vec3 surfaceNormal;
 		
-		surfaceNormal = glm::normalize(glm::cross(V1, V2));
+		surfaceNormal = glm::normalize(glm::cross(V2, V1));
 
 	
 
