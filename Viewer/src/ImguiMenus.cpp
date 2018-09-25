@@ -96,7 +96,7 @@ void DrawImguiMenus(ImGuiIO& io, Scene* scene)
 		ImGui::SameLine();
 		ImGui::InputFloat(" Y scale", &sy, 1.00f, 20.0f);
 		
-		ImGui::SliderFloat("z scale value ", &sz, sz + 0.5f, sz - 0.5f);
+		ImGui::SliderFloat("z scale value ", &sz, sz + 0.1f, sz - 0.1f);
 		ImGui::SameLine();
 		ImGui::InputFloat(" Z scale", &sz, 1.00f, 20.0f);
 		

@@ -4,6 +4,7 @@
 #include <array>
 #include <iostream>
 #include "MeshModel.h"
+#include "Camera.h"
 
 #define INDEX(width,x,y,c) ((x)+(y)*(width))*3+(c)
 extern glm::vec3 ObjColor; // = glm::vec4(1.0f, 0.0f, 1.0f, 1.00f);
@@ -19,6 +20,14 @@ extern float ty;
 extern float tz;
 
 extern float lx, ly, lz;
+
+//camera parameters
+float fovy = 35 * 3.14f / 180; // angle in radians (angle * pi / 180 degrees)
+float aspect = 1.0f;		   // should always be 1?
+float zNear = 0.1f;
+float zFar = 2.0f;
+
+
 
 Renderer::Renderer() : width(1280), height(720)
 {
@@ -55,6 +64,31 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		glm::vec3 pointB = (*vertices)[3*i+1];	// get second point
 		glm::vec3 pointC = (*vertices)[3*i+2];	// get third point
 		
+												
+		//add camera perspective
+		Camera cam;
+		glm::mat4x4 perspective = cam.Perspective(fovy, aspect, zNear, zFar);
+
+		//move the camera to (0,0,-3) so we can see (0,0,0):
+		glm::mat4x4 camTranslate = { 1,0,0,0,
+									 0,1,0,0,
+									 0,0,1,0,
+									 0,0,-3,1 };
+
+		glm::vec4 pointATemp = perspective * camTranslate * glm::vec4(pointA, 1);
+		glm::vec4 pointBTemp = perspective * camTranslate * glm::vec4(pointB, 1);
+		glm::vec4 pointCTemp = perspective * camTranslate * glm::vec4(pointC, 1);
+		
+		//perspective division - devide the point by the 4th value (w)
+		pointATemp /= pointATemp.w;
+		pointBTemp /= pointBTemp.w;
+		pointCTemp /= pointCTemp.w;
+		
+		pointA = pointATemp;
+		pointB = pointBTemp;
+		pointC = pointCTemp;
+		
+		
 		pointA.x *= (float)height / width;	// correct the ratio according to window change
 		pointB.x *= (float)height / width;
 		pointC.x *= (float)height / width;
@@ -69,7 +103,7 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		glm::vec3 V2 = (pointC - pointB);
 		glm::vec3 surfaceNormal;
 		
-		surfaceNormal = glm::normalize(glm::cross(V2, V1));
+		surfaceNormal = glm::normalize(glm::cross(V1, V2));
 
 	
 
