@@ -5,6 +5,7 @@
 #include <iostream>
 #include "MeshModel.h"
 #include "Camera.h"
+#include "lodepng.h"
 
 #define INDEX(width,x,y,c) ((x)+(y)*(width))*3+(c)
 extern glm::vec3 ObjColor; // = glm::vec4(1.0f, 0.0f, 1.0f, 1.00f);
@@ -27,18 +28,34 @@ float aspect = 1.0f;		   // should always be 1?
 float zNear = 0.1f;
 float zFar = 2.0f;
 
+//OpenGL
+GLuint program;
+GLuint text;
+GLint projMatrix = -1;
+GLint viewMatrix = -1;
 
 
 Renderer::Renderer() : width(1280), height(720)
 {
 	initOpenGLRendering();
 	createBuffers(1280,720);
+
+
 }
 
 Renderer::Renderer(int w, int h) : width(w), height(h)
 {
 	initOpenGLRendering();
 	createBuffers(w,h);
+
+	program = InitShader("v.glsl", "f.glsl");
+	GLint link_ok = GL_FALSE;
+	glLinkProgram(program);
+	glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
+	if (!link_ok) {
+		fprintf(stderr, "glLinkProgram:");
+		return;
+	}
 }
 
 Renderer::~Renderer()
