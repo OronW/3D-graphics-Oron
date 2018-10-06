@@ -56,6 +56,7 @@ Renderer::Renderer(int w, int h) : width(w), height(h)
 		fprintf(stderr, "glLinkProgram:");
 		return;
 	}
+
 }
 
 Renderer::~Renderer()
@@ -204,8 +205,8 @@ void Renderer::DrawTriangles(const vector<glm::vec4>* vertices, const vector<glm
 		float L1, L2, L3, det;
 		det = (By - Cy)*(Ax - Cx) + (Cx - Bx)*(Ay - Cy);
 		
-		for (int y = mb; y < mu; y++)				//y value
-			for (int x = ml; x < mr; x++)			//x value
+		for (int y = max(mb,0); y < min(mu,height); y++)				//y value
+			for (int x = max(ml,0); x < min(mr,width) ; x++)			//x value
 			{
 				L1 = (By - Cy)*(x - Cx) + (Cx - Bx)*(y - Cy);
 				L1 /= det;

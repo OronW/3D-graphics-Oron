@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <string>
 #include "Model.h"
+#include <glad/glad.h>
 
 using namespace std;
 
@@ -22,6 +23,11 @@ protected :
 	glm::mat4x4 objTransform;
 
 public:
+
+	//OpenGL Buffers
+	GLuint vbo_vertices;
+	int verticesSize = 0;
+
 	MeshModel();
 	MeshModel(const string& fileName);
 	~MeshModel();
@@ -33,5 +39,8 @@ public:
 	{
 		return vertexPositions;
 	}
+
+	void Upload(vector<glm::vec3> vertices);
+
 };
 

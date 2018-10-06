@@ -92,6 +92,10 @@ MeshModel::MeshModel(const string& fileName)
 
 MeshModel::~MeshModel()
 {
+	if (vbo_vertices != 0)	// delete buffer at finish
+	{
+		glDeleteBuffers(1, &vbo_vertices);
+	}
 }
 
 void MeshModel::LoadFile(const string& fileName)
@@ -127,10 +131,10 @@ void MeshModel::LoadFile(const string& fileName)
 		{
 			// comment / empty line
 		}
-		else
+		/*else
 		{
 			cout << "Found unknown line Type \"" << lineType << "\"";
-		}
+		}*/
 	}
 	//Vertex_positions is an array of vec3. Every three elements define a triangle in 3D.
 	//If the face part of the obj is
@@ -139,8 +143,8 @@ void MeshModel::LoadFile(const string& fileName)
 	//Then vertexPositions should contain:
 	//vertexPositions={v1,v2,v3,v1,v3,v4}
 
-	vertexPositions = new vector<glm::vec3>; /*BUG*/
-	vertexPositions_transformed = new vector<glm::vec4>; /*BUG*/
+	vertexPositions = new vector<glm::vec3>;
+	vertexPositions_transformed = new vector<glm::vec4>; 
 	// iterate through all stored faces and create triangles
 	int k=0;
 	//for(vector<FaceIdx>::iterator it = faces.begin(); it != faces.end(); ++it)
@@ -153,6 +157,8 @@ void MeshModel::LoadFile(const string& fileName)
 		}
 	}
 	vertexPositions_transformed->resize(vertexPositions->size());
+
+	Upload(*vertexPositions);	// upload the vertex data to gpu
 }
 
 void MeshModel::createTransformation()
@@ -201,3 +207,19 @@ const vector<glm::vec4>* MeshModel::Draw()
 	}
 	return vertexPositions_transformed;
 }
+
+
+//Store object data in graphics card buffer
+void MeshModel::Upload(vector<glm::vec3> vertices) {
+
+	//upload to gpu
+	if (vertices.size() > 0) {
+		glGenBuffers(1, &this->vbo_vertices);					// generates named buffer
+		glBindBuffer(GL_ARRAY_BUFFER, this->vbo_vertices);		// bind named buffer
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), vertices.data(), GL_STATIC_DRAW);	// creates and initializes a buffer object's data 
+
+		this->verticesSize = vertices.size() * sizeof(vertices[0]);
+	}
+
+}
+
