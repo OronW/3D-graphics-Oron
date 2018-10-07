@@ -76,5 +76,8 @@ public:
 	//Primitive triangle
 	//void PrimMeshModel(glm::vec3 *vertexPosition);
 
-	void Renderer::SetBuffer();
+	void SetBuffer();
+
+	void Render(GLuint vbo_vertices, int verticesSize, glm::mat4x4 transform);
+
 };

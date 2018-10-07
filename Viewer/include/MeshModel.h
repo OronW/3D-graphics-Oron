@@ -20,7 +20,7 @@ protected :
 	// Add more attributes.
 	glm::mat4x4 worldTransform;
 	glm::mat4x4 normalTransform;
-	glm::mat4x4 objTransform;
+	//glm::mat4x4 objTransform;
 
 public:
 
@@ -41,6 +41,8 @@ public:
 	}
 
 	void Upload(vector<glm::vec3> vertices);
+
+	glm::mat4x4 objTransform;
 
 };
 

@@ -19,8 +19,9 @@ void Scene::Draw()
 	for (int i = 0; i < models.size(); i++)
 	{
 		models[i]->createTransformation();
-		const std::vector<glm::vec4>* tris = models[i]->Draw();
-		renderer->DrawTriangles(tris);
+		//const std::vector<glm::vec4>* tris = models[i]->Draw();
+		//renderer->DrawTriangles(tris);
+		renderer->Render(models[i]->vbo_vertices, models[i]->verticesSize, models[i]->objTransform);
 	}
 
 	renderer->SwapBuffers();

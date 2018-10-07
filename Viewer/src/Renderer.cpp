@@ -540,3 +540,43 @@ void Renderer::Viewport(int w, int h)
 	colorBuffer = new float[3 * h*w];
 	createOpenGLBuffer();
 }
+
+
+void Renderer::Render(GLuint vbo_vertices, int verticesSize, glm::mat4x4 transform) 
+{
+	glClearColor(0, 0, 1, 1); //bg color
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_CLAMP);
+
+	if (vbo_vertices != 0) {
+		glUseProgram(program);
+
+		Camera cam;
+		glm::mat4x4 perspective = cam.Perspective(fovy, aspect, zNear, zFar);
+
+		//move the camera to (0,0,-3) for it to look at (0,0,0) (like before openGL)
+		glm::mat4x4 translate = { 1,0,0,0,
+								  0,1,0,0,
+								  0,0,1,0,
+								  0,0,-3,1 };
+
+		glUniformMatrix4fv(glGetUniformLocation(program, "viewMatrix"), 1, false, &transform[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(program, "projMatrix"), 1, false, &perspective[0][0]);
+
+
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
+
+		glVertexAttribPointer(
+			0,      // shader layout location
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			0,
+			(void *)0
+			);
+		glDrawArrays(GL_TRIANGLES, 0, verticesSize);
+	}
+
+
+}

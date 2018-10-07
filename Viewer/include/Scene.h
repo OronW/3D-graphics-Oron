@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include "Renderer.h"
-#include "Model.h"
+#include "MeshModel.h"
 #include "Light.h"
 #include "Camera.h"
 
@@ -13,7 +13,7 @@ using namespace std;
 
 class Scene {
 private:
-	vector<Model*> models;
+	vector<MeshModel*> models;
 	vector<Light*> lights;
 	vector<Camera*> cameras;
 	Renderer *renderer;
