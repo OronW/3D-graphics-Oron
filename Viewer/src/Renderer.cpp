@@ -19,6 +19,7 @@ extern bool translating;
 extern float tx;
 extern float ty;
 extern float tz;
+extern glm::vec4 clearColor;
 
 extern float lx, ly, lz;
 
@@ -56,6 +57,29 @@ Renderer::Renderer(int w, int h) : width(w), height(h)
 		fprintf(stderr, "glLinkProgram:");
 		return;
 	}
+
+	//load texture
+	std::vector<unsigned char> image;
+	unsigned width, height;
+	unsigned error = lodepng::decode(image, width, height, "D:\\GraphicsHaifa\\computergraphics2018-oron-gal\\text2.png");
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
+
+	GLint texAttrib = glGetAttribLocation(program, "texcoord");
+	glEnableVertexAttribArray(texAttrib);
+	glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(5 * sizeof(float)));
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+	//depth test
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+
 
 }
 
@@ -544,7 +568,7 @@ void Renderer::Viewport(int w, int h)
 
 void Renderer::Render(GLuint vbo_vertices, int verticesSize, glm::mat4x4 transform) 
 {
-	glClearColor(0, 0, 1, 1); //bg color
+	glClearColor(clearColor.x, clearColor.y, clearColor.z, 1); //bg color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_CLAMP);
 
@@ -555,10 +579,12 @@ void Renderer::Render(GLuint vbo_vertices, int verticesSize, glm::mat4x4 transfo
 		glm::mat4x4 perspective = cam.Perspective(fovy, aspect, zNear, zFar);
 
 		//move the camera to (0,0,-3) for it to look at (0,0,0) (like before openGL)
-		glm::mat4x4 translate = { 1,0,0,0,
+		/*glm::mat4x4 translate = { 1,0,0,0,
 								  0,1,0,0,
 								  0,0,1,0,
 								  0,0,-3,1 };
+		transform *= translate;*/
+		
 
 		glUniformMatrix4fv(glGetUniformLocation(program, "viewMatrix"), 1, false, &transform[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(program, "projMatrix"), 1, false, &perspective[0][0]);
