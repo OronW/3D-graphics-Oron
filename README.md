@@ -4,7 +4,7 @@
 Name: Oron Werner  
 Student Number: 300881612
 
-Name: Gal Shachar
+Name: Gal Shachar 
 Student Number: 200739530 
 
 Updates for our peojects:
