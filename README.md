@@ -8,7 +8,7 @@ Name: Gal Shachar
 Student Number: 200739530 
 
 
-
+![](https://github.com/OronW/3D-graphics-Oron/blob/master/20180804_004836.jpg =250x250)
 
 
 
