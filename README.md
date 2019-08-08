@@ -7,8 +7,17 @@ Student Number: 300881612
 Name: Gal Shachar
 Student Number: 200739530 
 
+---------------------
+wireframe rabbit:
 
 ![image](https://github.com/OronW/3D-graphics-Oron/blob/master/20180804_004836.jpg)
+
+--------------------
+rabbit with full color:
+
+![image] (https://github.com/OronW/3D-graphics-Oron/blob/master/20180820_122642.jpg)
+
+-------------------
 
 
 
