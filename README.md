@@ -7,6 +7,7 @@ Student Number: 300881612
 Name: Gal Shachar
 Student Number: 200739530 
 
+Updates for our peojects:
 ---------------------
 wireframe rabbit:
 
@@ -15,7 +16,7 @@ wireframe rabbit:
 --------------------
 rabbit with full color:
 
-![image] (https://github.com/OronW/3D-graphics-Oron/blob/master/20180820_122642.jpg)
+![image](https://github.com/OronW/3D-graphics-Oron/blob/master/20180820_122642.jpg)
 
 -------------------
 
@@ -44,11 +45,3 @@ Interactive Computer Graphics: A Top-Down Approach with Shader-Based OpenGL ,6th
 * [Assignment 2: Basic Shading](Assignment2/homework2.pdf)
 
 * [Assignment 3: OpenGL Renderer](Assignment3/homework3.pdf)
-
-### Solution Submission
-
-To submit your final solution of the assignment please add the following commit message: "Solution assignment X". E.g:
-```
-git commit -m "Solution assignment X"
-git push
-```
