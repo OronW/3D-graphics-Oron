@@ -19,6 +19,10 @@ rabbit with full color:
 ![image](https://github.com/OronW/3D-graphics-Oron/blob/master/20180820_122642.jpg)
 
 -------------------
+3D manipulation of the rabbit, with lighting and shadows :)
+https://github.com/OronW/3D-graphics-Oron/blob/master/20180920_121731(1).mp4
+
+------------------
 
 
 
